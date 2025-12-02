@@ -31,17 +31,29 @@ public class Player extends Entity {
     }
 
     private void move(){
+        boolean pressed = false;
+
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             sprite.setY(sprite.getY() + speed);
+            pressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             sprite.setY(sprite.getY() - speed);
+            pressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            pressed = true;
             sprite.setX(sprite.getX() - speed);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            pressed = true;
             sprite.setX(sprite.getX() + speed);
+        }
+
+        if (!pressed) {
+            changeAnimation("idle");
+        } else{
+            changeAnimation("walk");
         }
     }
 
