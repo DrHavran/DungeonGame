@@ -26,7 +26,7 @@ public class EntityManager {
     }
 
     public void update(){
-        player.update();
+        //player.update();
         for(Entity entity : entities){
             entity.update();
         }

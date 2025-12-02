@@ -2,6 +2,8 @@ package Dungeon.Game;
 
 import Dungeon.Game.Entities.Entity;
 import Dungeon.Game.Entities.EntityManager;
+import Dungeon.Game.Room.RoomManager;
+import Dungeon.Game.Room.Tile;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.io.File;
@@ -12,11 +14,14 @@ public class Logic {
 
     private final HashMap<String, Texture> textures;
     private final EntityManager eM;
+    private final RoomManager rM;
 
     public Logic() {
         this.eM = EntityManager.getInstance();
         this.textures = new HashMap<>();
         setUpTextures();
+
+        this.rM = new RoomManager(getTexture("tile"));
 
         eM.addTest();
     }
@@ -43,4 +48,5 @@ public class Logic {
     public ArrayList<Entity> getEntities() {
         return eM.getEntities();
     }
+    public ArrayList<Tile> getTiles(){ return rM.getTiles();}
 }

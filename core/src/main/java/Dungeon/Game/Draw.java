@@ -1,6 +1,7 @@
 package Dungeon.Game;
 
 import Dungeon.Game.Entities.Entity;
+import Dungeon.Game.Room.Tile;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,6 +19,13 @@ public class Draw {
     public void update(){
         logic.update();
 
+        for(Tile tile : logic.getTiles()){
+            if(tile.isEmpty()){
+                continue;
+            }
+            drawTile(tile);
+        }
+
         for(Entity entity : logic.getEntities()){ //draw everything
             draw(entity);
         }
@@ -33,6 +41,11 @@ public class Draw {
             frameWidth * entity.getFrame(), 0,
             frameWidth, texture.getHeight()
         );
+
+        sprite.draw(batch);
+    }
+    private void drawTile(Tile tile){
+        Sprite sprite = tile.getSprite();
 
         sprite.draw(batch);
     }
