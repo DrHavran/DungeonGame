@@ -17,6 +17,9 @@ public class Player extends Entity {
         type = "player";
         changeAnimation("idle");
 
+        int scale = 5;
+
+        sprite.setSize(10*scale,11*scale);
         sprite.setPosition(100, 100);
     }
 
@@ -35,19 +38,23 @@ public class Player extends Entity {
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             sprite.setY(sprite.getY() + speed);
+            //rotation = "up";
             pressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             sprite.setY(sprite.getY() - speed);
+            //rotation = "down";
             pressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            pressed = true;
             sprite.setX(sprite.getX() - speed);
+            //rotation = "left";
+            pressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            pressed = true;
             sprite.setX(sprite.getX() + speed);
+            //rotation = "right";
+            pressed = true;
         }
 
         if (!pressed) {
@@ -60,12 +67,12 @@ public class Player extends Entity {
     @Override
     protected void loadAnimations() {
         HashMap<String, Integer> idle = new HashMap<>();
-        idle.put("frames", 6);
-        idle.put("speed", 8);
+        idle.put("frames", 2);
+        idle.put("speed", 20);
 
         HashMap<String, Integer> walk = new HashMap<>();
-        walk.put("frames", 6);
-        walk.put("speed", 8);
+        walk.put("frames", 2);
+        walk.put("speed", 20);
 
         animations.put("walk", walk);
         animations.put("idle", idle);

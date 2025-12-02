@@ -23,10 +23,10 @@ public class EntityManager {
 
     public void addTest(){
         this.player = new Player();
+        entities.add(player);
     }
 
     public void update(){
-        //player.update();
         for(Entity entity : entities){
             entity.update();
         }
@@ -56,7 +56,4 @@ public class EntityManager {
     public ArrayList<Entity> getEntities() {
         return entities;
     }   //getters
-    public Player getPlayer() {
-        return player;
-    }
 }

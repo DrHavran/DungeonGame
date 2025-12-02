@@ -10,20 +10,27 @@ public class RoomManager {
 
     private final ArrayList<Tile> tiles;
     private final Texture texture;
+    private final RoomGenerator rG;
 
-    private int[][] room = {
-        {1, 1, 1, 1, 1},
-        {1, 1, 1, 1, 1},
-        {1, 1, 0, 1, 1},
-        {1, 1, 1, 1, 1},
-        {1, 1, 1, 1, 1}
-    };
+    private int[][] room;
 
     public RoomManager(Texture texture) {
         this.tiles = new ArrayList<>();
+        this.rG = new RoomGenerator();
         this.texture = texture;
+
+        generateRoom(30, 15);
+    }
+
+    public void generateRoom(int x, int y){
+        rG.generateRoom(x, y);
+        this.room = rG.getRoom();
+
         convert();
         group();
+        for(Tile tile : tiles){ //adds walls
+            tile.resize();
+        }
     }
 
     private void convert(){
@@ -35,7 +42,6 @@ public class RoomManager {
                 }else{
                     checkWalls(tile, row, col);
                 }
-                tile.resize();
                 tiles.add(tile);
             }
         }
@@ -48,7 +54,7 @@ public class RoomManager {
 
         for(Tile tile : tiles){
             if(col != tile.getSprite().getY()){
-                lastY -= 32;
+                lastY -= (int) tile.getSprite().getHeight();
                 lastX = Settings.offSet;
                 col++;
             }

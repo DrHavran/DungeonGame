@@ -19,11 +19,10 @@ public class Draw {
     public void update(){
         logic.update();
 
-        for(Tile tile : logic.getTiles()){
-            if(tile.isEmpty()){
-                continue;
+        for(Tile tile : logic.getTiles()){ //draw room
+            if(!tile.isEmpty()){
+                drawTile(tile);
             }
-            drawTile(tile);
         }
 
         for(Entity entity : logic.getEntities()){ //draw everything
@@ -46,7 +45,6 @@ public class Draw {
     }
     private void drawTile(Tile tile){
         Sprite sprite = tile.getSprite();
-
         sprite.draw(batch);
     }
 
