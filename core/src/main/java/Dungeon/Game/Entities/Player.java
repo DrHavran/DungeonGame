@@ -3,6 +3,8 @@ package Dungeon.Game.Entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
+import java.util.HashMap;
+
 public class Player extends Entity {
 
     public Player() {
@@ -10,6 +12,10 @@ public class Player extends Entity {
 
         speed = 5;
         health = 100;
+
+        loadAnimations();
+        type = "player";
+        changeAnimation("idle");
 
         sprite.setPosition(100, 100);
     }
@@ -37,6 +43,20 @@ public class Player extends Entity {
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             sprite.setX(sprite.getX() + speed);
         }
+    }
+
+    @Override
+    protected void loadAnimations() {
+        HashMap<String, Integer> idle = new HashMap<>();
+        idle.put("frames", 6);
+        idle.put("speed", 8);
+
+        HashMap<String, Integer> walk = new HashMap<>();
+        walk.put("frames", 6);
+        walk.put("speed", 8);
+
+        animations.put("walk", walk);
+        animations.put("idle", idle);
     }
 
     public void damage(int hit) {

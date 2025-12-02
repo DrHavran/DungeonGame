@@ -1,6 +1,7 @@
 package Dungeon.Game;
 
 import Dungeon.Game.Entities.Entity;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -24,6 +25,14 @@ public class Draw {
 
     private void draw(Entity entity) {
         Sprite sprite = entity.getSprite();
+        Texture texture = logic.getTexture(entity.getAnimation() + entity.getRotation());
+        int frameWidth = texture.getWidth() / entity.getFrameCount();
+
+        sprite.setTexture(texture);
+        sprite.setRegion(
+            frameWidth * entity.getFrame(), 0,
+            frameWidth, texture.getHeight()
+        );
 
         sprite.draw(batch);
     }

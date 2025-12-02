@@ -18,7 +18,6 @@ public class Logic {
         this.textures = new HashMap<>();
         setUpTextures();
 
-
         eM.addTest();
     }
 
