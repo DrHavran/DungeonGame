@@ -1,5 +1,6 @@
 package Dungeon.Game.Entities;
 
+import Dungeon.Game.Settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
@@ -20,7 +21,7 @@ public class Player extends Entity {
         int scale = 5;
 
         sprite.setSize(10*scale,11*scale);
-        sprite.setPosition(100, 100);
+        sprite.setPosition((float) Settings.width /2, (float) Settings.height /2);
     }
 
     @Override
@@ -37,22 +38,18 @@ public class Player extends Entity {
         boolean pressed = false;
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            sprite.setY(sprite.getY() + speed);
             //rotation = "up";
             pressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            sprite.setY(sprite.getY() - speed);
             //rotation = "down";
             pressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            sprite.setX(sprite.getX() - speed);
             //rotation = "left";
             pressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            sprite.setX(sprite.getX() + speed);
             //rotation = "right";
             pressed = true;
         }

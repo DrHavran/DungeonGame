@@ -1,6 +1,7 @@
 package Dungeon.Game;
 
 import Dungeon.Game.Entities.Entity;
+import Dungeon.Game.Room.Room;
 import Dungeon.Game.Room.Tile;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -19,13 +20,9 @@ public class Draw {
     public void update(){
         logic.update();
 
-        for(Tile tile : logic.getTiles()){ //draw room
-            if(!tile.isEmpty()){
-                drawTile(tile);
-            }
-        }
+        drawRoom(logic.getCurrentRoom());
 
-        for(Entity entity : logic.getEntities()){ //draw everything
+        for(Entity entity : logic.getEntities()){ //draw entities
             draw(entity);
         }
     }
@@ -43,9 +40,25 @@ public class Draw {
 
         sprite.draw(batch);
     }
-    private void drawTile(Tile tile){
-        Sprite sprite = tile.getSprite();
-        sprite.draw(batch);
+
+    private void drawRoom(Room room){
+        for(Tile tile : room.getTiles()){
+            if(tile.isEmpty()){
+                continue;
+            }
+            Sprite sprite = tile.getSprite();
+
+            float lastX = sprite.getX();
+            float lastY = sprite.getY();
+
+            sprite.setX(sprite.getX() - room.getXOffset());
+            sprite.setY(sprite.getY() - room.getYOffset());
+
+            sprite.draw(batch);
+
+            sprite.setX(lastX);
+            sprite.setY(lastY);
+        }
     }
 
     public void begin() {

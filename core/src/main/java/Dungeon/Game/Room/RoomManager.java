@@ -1,84 +1,55 @@
 package Dungeon.Game.Room;
 
-
-import Dungeon.Game.Settings;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
 
 public class RoomManager {
 
-    private final ArrayList<Tile> tiles;
     private final Texture texture;
     private final RoomGenerator rG;
 
-    private int[][] room;
+    private final ArrayList<Room> rooms;
+
+    private Room currentRoom;
 
     public RoomManager(Texture texture) {
-        this.tiles = new ArrayList<>();
         this.rG = new RoomGenerator();
+        this.rooms = new ArrayList<>();
         this.texture = texture;
-
-        generateRoom(30, 15);
     }
 
     public void generateRoom(int x, int y){
+        Room room = new Room(texture);
+
         rG.generateRoom(x, y);
-        this.room = rG.getRoom();
 
-        convert();
-        group();
-        for(Tile tile : tiles){ //adds walls
-            tile.resize();
+        room.setRoom(rG.getRoom());
+        room.edit();
+
+        rooms.add(room);
+
+        currentRoom = room; //placeholder
+    }
+
+    public void checkMove(){
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            currentRoom.setYOffset(currentRoom.getYOffset() + 5);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            currentRoom.setYOffset(currentRoom.getYOffset() - 5);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            currentRoom.setXOffset(currentRoom.getXOffset() - 5);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            currentRoom.setXOffset(currentRoom.getXOffset() + 5);
         }
     }
 
-    private void convert(){
-        for(int row = 0; row < room.length; row++){
-            for(int col = 0; col < room[row].length; col++){
-                Tile tile = new Tile(col, row, texture);
-                if(room[row][col] == 0){
-                    tile.setEmpty();
-                }else{
-                    checkWalls(tile, row, col);
-                }
-                tiles.add(tile);
-            }
-        }
-    }
-
-    private void group(){
-        int lastX = Settings.offSet;
-        int lastY = Settings.height - Settings.offSet;
-        int col = 0;
-
-        for(Tile tile : tiles){
-            if(col != tile.getSprite().getY()){
-                lastY -= (int) tile.getSprite().getHeight();
-                lastX = Settings.offSet;
-                col++;
-            }
-            tile.getSprite().setPosition(lastX, lastY);
-            lastX += (int) tile.getSprite().getWidth();
-        }
-    }
-
-    private void checkWalls(Tile tile, int row, int col){
-        if (row == 0 || room[row - 1][col] == 0) {
-            tile.addWall("up");
-        }
-        if (row == room.length - 1 || room[row + 1][col] == 0) {
-            tile.addWall("down");
-        }
-        if (col == 0 || room[row][col - 1] == 0) {
-            tile.addWall("left");
-        }
-        if (col == room[0].length - 1 || room[row][col + 1] == 0) {
-            tile.addWall("right");
-        }
-    }
-
-    public ArrayList<Tile> getTiles() {
-        return tiles;
+    public Room getCurrentRoom() {
+        return currentRoom;
     }
 }

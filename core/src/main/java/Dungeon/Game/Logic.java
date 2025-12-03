@@ -2,51 +2,35 @@ package Dungeon.Game;
 
 import Dungeon.Game.Entities.Entity;
 import Dungeon.Game.Entities.EntityManager;
+import Dungeon.Game.Room.Room;
 import Dungeon.Game.Room.RoomManager;
-import Dungeon.Game.Room.Tile;
 import com.badlogic.gdx.graphics.Texture;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Logic {
 
-    private final HashMap<String, Texture> textures;
     private final EntityManager eM;
     private final RoomManager rM;
+    private final Data data;
 
     public Logic() {
         this.eM = EntityManager.getInstance();
-        this.textures = new HashMap<>();
-        setUpTextures();
-
+        this.data = new Data();
         this.rM = new RoomManager(getTexture("tile"));
 
         eM.addTest();
+        rM.generateRoom(30, 15);
     }
 
     public void update(){
         eM.update();
+        rM.checkMove();
     }
 
-    private void setUpTextures() {
-        File folder = new File("assets/sprites");
-        File[] subfolders = folder.listFiles();
-        assert subfolders != null;
-        for (File sub : subfolders) {
-            File[] files = sub.listFiles();
-            assert files != null;
-            for (File img : files) {
-                System.out.println("Loading " + img.getName());
-                textures.put(img.getName(), new Texture(img.getAbsolutePath()));
-            }
-        }
-    }
-
-    public Texture getTexture(String name){return textures.get(name + ".png");}
+    public Room getCurrentRoom(){ return rM.getCurrentRoom(); }
+    public Texture getTexture(String name){return data.get(name);}
     public ArrayList<Entity> getEntities() {
         return eM.getEntities();
     }
-    public ArrayList<Tile> getTiles(){ return rM.getTiles();}
 }
