@@ -1,7 +1,5 @@
 package Dungeon.Game.Entities;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-
 import java.util.ArrayList;
 
 public class EntityManager {

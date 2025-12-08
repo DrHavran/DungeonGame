@@ -18,8 +18,8 @@ public class Logic {
 
     public Logic() {
         this.eM = EntityManager.getInstance();
-        this.data = new Data();
-        this.rM = new RoomManager(getTexture("tile"));
+        this.data = Data.getInstance();
+        this.rM = new RoomManager();
 
         eM.addEntity(EntityType.PLAYER);
         rM.generateRoom(30, 15);

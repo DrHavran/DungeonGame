@@ -1,7 +1,6 @@
 package Dungeon.Game.Room;
 
 import Dungeon.Game.Settings;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -12,15 +11,13 @@ public class Room {
     private int[][] room;
     private final ArrayList<Tile> tiles;
     private final ArrayList<Rectangle> bounds;
-    private final Texture texture;
 
     private float xOffset;
     private float yOffset;
 
-    public Room(Texture texture) {
+    public Room() {
         this.tiles = new ArrayList<>();
         this.bounds = new ArrayList<>();
-        this.texture = texture;
 
         yOffset = 100;
     }
@@ -30,14 +27,16 @@ public class Room {
         group();
         createArea();
         for(Tile tile : tiles){ //adds walls
-            tile.resize();
+            if(tile.getType() != TileType.EMPTY){
+                tile.resize();
+            }
         }
     }
 
     private void convert(){
         for(int row = 0; row < room.length; row++){
             for(int col = 0; col < room[row].length; col++){
-                Tile tile = new Tile(col, row, texture);
+                Tile tile = new Tile(col, row);
                 tiles.add(tile);
 
                 switch(room[row][col]){
@@ -47,7 +46,7 @@ public class Room {
                         tile.setType(TileType.NORMAL);
                         break;
                     case 2:
-                        tile.setType(TileType.DOOR);
+                        tile.setType(TileType.GOLDEN_DOOR_OPEN);
                         break;
                 }
                 checkWalls(tile, row, col);

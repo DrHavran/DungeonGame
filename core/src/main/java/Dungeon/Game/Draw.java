@@ -66,6 +66,7 @@ public class Draw {
             if(tile.getType() == TileType.EMPTY){
                 continue;
             }
+
             Sprite sprite = tile.getSprite();
 
             float lastX = sprite.getX();

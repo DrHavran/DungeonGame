@@ -5,4 +5,5 @@ public enum TileType {
     NORMAL,
     DOOR,
     GOLDEN_DOOR,
+    GOLDEN_DOOR_OPEN
 }

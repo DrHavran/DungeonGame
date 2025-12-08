@@ -6,6 +6,11 @@ import java.io.File;
 import java.util.HashMap;
 
 public class Data {
+    private static Data instance;
+    public static Data getInstance() {
+        if (instance == null) instance = new Data();
+        return instance;
+    }
 
     private final HashMap<String, Texture> textures;
 

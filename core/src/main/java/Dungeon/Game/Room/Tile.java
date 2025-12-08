@@ -1,31 +1,32 @@
 package Dungeon.Game.Room;
 
+import Dungeon.Game.Data;
 import Dungeon.Game.Settings;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import java.util.ArrayList;
 
 public class Tile {
+    private final Data data;
     private final Sprite sprite;
     private TileType type;
     private final ArrayList<String> walls;
     private final int scale;
 
-    public Tile(float x, float y, Texture texture){
-        this.sprite = new Sprite(texture);
-        this.type = TileType.EMPTY;
+    public Tile(float x, float y){
+        this.sprite = new Sprite();
         this.walls = new ArrayList<>();
+        this.data = Data.getInstance();
+        this.type = TileType.EMPTY;
         this.scale = Settings.roomScale;
 
         sprite.setPosition(x, y);
-        sprite.setRegion(6, 30, 32, 32);
         sprite.setSize(32 * scale, 32 * scale);
     }
 
     public void resize(){
         int regionX = 6;
-        int regionY = 30;
+        int regionY = 31;
         int regionWidth = 32;
         int regionHeight = 32;
 
@@ -59,6 +60,7 @@ public class Tile {
     }
     public void setType(TileType type){
         this.type = type;
+        sprite.setTexture(data.get(type.toString().toLowerCase()));
     }
     public TileType getType() {
         return type;

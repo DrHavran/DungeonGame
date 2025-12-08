@@ -4,7 +4,6 @@ import Dungeon.Game.Entities.EntityManager;
 import Dungeon.Game.Settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -12,22 +11,20 @@ import java.util.ArrayList;
 
 public class RoomManager {
 
-    private final Texture texture;
     private final EntityManager eM;
     private final RoomGenerator rG;
 
     private final ArrayList<Room> rooms;
     private Room currentRoom;
 
-    public RoomManager(Texture texture) {
+    public RoomManager() {
         this.rG = new RoomGenerator();
         this.eM = EntityManager.getInstance();
         this.rooms = new ArrayList<>();
-        this.texture = texture;
     }
 
     public void generateRoom(int x, int y){
-        Room room = new Room(texture);
+        Room room = new Room();
 
         rG.generateRoom(x, y);
 
@@ -55,12 +52,12 @@ public class RoomManager {
     public void checkMove(){
         Sprite player = eM.getPlayer().getSprite();
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            if(checkBounds(player.getX(), player.getY() + Settings.speed)){
+            if(checkBounds(player.getX(), player.getY() + Settings.speed) && checkBounds(player.getX() + player.getWidth(), player.getY() + Settings.speed)){
                 currentRoom.setYOffset(currentRoom.getYOffset() + Settings.speed);
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            if(checkBounds(player.getX(), player.getY() - Settings.speed)){
+            if(checkBounds(player.getX(), player.getY() - Settings.speed) && checkBounds(player.getX() + player.getWidth(), player.getY() - Settings.speed)){
                 currentRoom.setYOffset(currentRoom.getYOffset() - Settings.speed);
             }
         }
