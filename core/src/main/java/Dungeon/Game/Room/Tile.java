@@ -8,14 +8,15 @@ import java.util.ArrayList;
 
 public class Tile {
     private final Sprite sprite;
+    private TileType type;
     private final ArrayList<String> walls;
-    private boolean isEmpty;
-    private final int scale = Settings.roomScale;
+    private final int scale;
 
     public Tile(float x, float y, Texture texture){
         this.sprite = new Sprite(texture);
+        this.type = TileType.EMPTY;
         this.walls = new ArrayList<>();
-        this.isEmpty = false;
+        this.scale = Settings.roomScale;
 
         sprite.setPosition(x, y);
         sprite.setRegion(6, 30, 32, 32);
@@ -56,11 +57,11 @@ public class Tile {
     public void addWall(String wall){
         walls.add(wall);
     }
-    public void setEmpty(){
-        isEmpty = true;
+    public void setType(TileType type){
+        this.type = type;
     }
-    public boolean isEmpty() {
-        return isEmpty;
+    public TileType getType() {
+        return type;
     }
     public Sprite getSprite() {
         return sprite;

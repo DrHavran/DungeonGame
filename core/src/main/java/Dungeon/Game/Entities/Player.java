@@ -11,14 +11,12 @@ public class Player extends Entity {
     public Player() {
         super();
 
-        speed = 5;
         health = 100;
+        int scale = 5;
 
         loadAnimations();
         type = "player";
         changeAnimation("idle");
-
-        int scale = 5;
 
         sprite.setSize(10*scale,11*scale);
         sprite.setPosition((float) Settings.width /2, (float) Settings.height /2);

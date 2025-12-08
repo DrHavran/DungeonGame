@@ -1,5 +1,7 @@
 package Dungeon.Game.Entities;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
 import java.util.ArrayList;
 
 public class EntityManager {
@@ -19,11 +21,6 @@ public class EntityManager {
         this.entities = new ArrayList<>();
         this.toAdd = new ArrayList<>();
         this.toRemove = new ArrayList<>();
-    }
-
-    public void addTest(){
-        this.player = new Player();
-        entities.add(player);
     }
 
     public void update(){
@@ -46,8 +43,12 @@ public class EntityManager {
         toRemove.clear();
     }
 
-    public void addEntity(Entity entity){
-        toAdd.add(entity);
+    public void addEntity(EntityType type){
+        switch(type){
+            case PLAYER:
+                this.player = new Player();
+                toAdd.add(new Player());
+        }
     }
     public void removeEntity(Entity entity){
         toRemove.add(entity);
@@ -56,4 +57,7 @@ public class EntityManager {
     public ArrayList<Entity> getEntities() {
         return entities;
     }   //getters
+    public Player getPlayer(){
+        return player;
+    }
 }

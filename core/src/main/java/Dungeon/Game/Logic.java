@@ -2,9 +2,11 @@ package Dungeon.Game;
 
 import Dungeon.Game.Entities.Entity;
 import Dungeon.Game.Entities.EntityManager;
+import Dungeon.Game.Entities.EntityType;
 import Dungeon.Game.Room.Room;
 import Dungeon.Game.Room.RoomManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 
@@ -19,7 +21,7 @@ public class Logic {
         this.data = new Data();
         this.rM = new RoomManager(getTexture("tile"));
 
-        eM.addTest();
+        eM.addEntity(EntityType.PLAYER);
         rM.generateRoom(30, 15);
     }
 
@@ -32,5 +34,8 @@ public class Logic {
     public Texture getTexture(String name){return data.get(name);}
     public ArrayList<Entity> getEntities() {
         return eM.getEntities();
+    }
+    public ArrayList<Rectangle> getRectangles(){
+        return rM.getCurrentRoom().getBounds();
     }
 }
