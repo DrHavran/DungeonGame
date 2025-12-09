@@ -11,7 +11,7 @@ public class Player extends Entity {
     public Player() {
         super();
 
-        health = 100;
+        health = 167;
         int scale = 5;
 
         loadAnimations();
@@ -25,6 +25,7 @@ public class Player extends Entity {
     @Override
     public void update() {
         if(health <= 0){
+            System.out.println("Player is dead");
             Gdx.app.exit();
         }
 

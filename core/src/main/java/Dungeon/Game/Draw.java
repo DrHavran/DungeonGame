@@ -29,7 +29,7 @@ public class Draw {
         drawRoom(logic.getCurrentRoom());
 
         for(Rectangle rect : logic.getRectangles()){ //draw bounds of the room
-            //drawRect(rect);
+            drawRect(rect);
         }
 
         for(Entity entity : logic.getEntities()){ //draw entities

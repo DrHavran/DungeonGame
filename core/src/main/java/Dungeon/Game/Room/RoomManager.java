@@ -51,24 +51,54 @@ public class RoomManager {
 
     public void checkMove(){
         Sprite player = eM.getPlayer().getSprite();
+
+        // --- ADDED: direction calculation + normalization ---
+        float dx = 0;
+        float dy = 0;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) dy += 1;
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) dy -= 1;
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) dx -= 1;
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) dx += 1;
+
+        float length = (float)Math.sqrt(dx * dx + dy * dy);
+        if (length != 0) {
+            dx /= length;
+            dy /= length;
+        }
+        // --- END OF ADDED SECTION ---
+
+        float speed = Settings.speed;
+
+        // Your original movement, only replaced +/- speed by dx/dy * speed
+
+        // UP
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            if(checkBounds(player.getX(), player.getY() + Settings.speed) && checkBounds(player.getX() + player.getWidth(), player.getY() + Settings.speed)){
-                currentRoom.setYOffset(currentRoom.getYOffset() + Settings.speed);
+            if(checkBounds(player.getX(), player.getY() + dy * speed) &&
+                checkBounds(player.getX() + player.getWidth(), player.getY() + dy * speed)){
+                currentRoom.setYOffset(currentRoom.getYOffset() + dy * speed);
             }
         }
+
+        // DOWN
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            if(checkBounds(player.getX(), player.getY() - Settings.speed) && checkBounds(player.getX() + player.getWidth(), player.getY() - Settings.speed)){
-                currentRoom.setYOffset(currentRoom.getYOffset() - Settings.speed);
+            if(checkBounds(player.getX(), player.getY() + dy * speed) &&
+                checkBounds(player.getX() + player.getWidth(), player.getY() + dy * speed)){
+                currentRoom.setYOffset(currentRoom.getYOffset() + dy * speed);
             }
-        }
+        };
+
+        // LEFT
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            if(checkBounds(player.getX() - Settings.speed, player.getY())){
-                currentRoom.setXOffset(currentRoom.getXOffset() - Settings.speed);
+            if(checkBounds(player.getX() + dx * speed, player.getY())){
+                currentRoom.setXOffset(currentRoom.getXOffset() + dx * speed);
             }
         }
+
+        // RIGHT
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            if(checkBounds(player.getX() + player.getWidth() + Settings.speed, player.getY())){
-                currentRoom.setXOffset(currentRoom.getXOffset() + Settings.speed);
+            if(checkBounds(player.getX() + player.getWidth() + dx * speed, player.getY())){
+                currentRoom.setXOffset(currentRoom.getXOffset() + dx * speed);
             }
         }
     }

@@ -34,6 +34,7 @@ public class EntityManager {
         entities.addAll(toAdd);
         toAdd.clear();
     }
+
     private void removeEntities(){
         for(Entity entity : toRemove){
             entities.remove(entity);
