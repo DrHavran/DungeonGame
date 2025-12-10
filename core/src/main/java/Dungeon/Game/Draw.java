@@ -49,7 +49,7 @@ public class Draw {
 
     private void draw(Entity entity) {
         Sprite sprite = entity.getSprite();
-        Texture texture = logic.getTexture(entity.getAnimation() + entity.getRotation());
+        Texture texture = logic.getTexture(entity.getAnimation() + "down");
         int frameWidth = texture.getWidth() / entity.getFrameCount();
 
         sprite.setTexture(texture);

@@ -19,7 +19,7 @@ public class Logic {
     public Logic() {
         this.eM = EntityManager.getInstance();
         this.data = Data.getInstance();
-        this.rM = new RoomManager();
+        this.rM = RoomManager.getInstance();
 
         eM.addEntity(EntityType.PLAYER);
         rM.generateRoom(30, 15);

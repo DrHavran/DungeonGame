@@ -1,13 +1,18 @@
 package Dungeon.Game.Entities;
 
+import Dungeon.Game.Room.RoomManager;
 import Dungeon.Game.Settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player extends Entity {
-
+    private RoomManager rm = RoomManager.getInstance();
     public Player() {
         super();
 
@@ -33,30 +38,58 @@ public class Player extends Entity {
     }
 
     private void move(){
+
         boolean pressed = false;
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            //rotation = "up";
+
             pressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            //rotation = "down";
+
             pressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            //rotation = "left";
+
             pressed = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            //rotation = "right";
+
             pressed = true;
         }
+
 
         if (!pressed) {
             changeAnimation("idle");
         } else{
             changeAnimation("walk");
         }
+    }
+
+    
+
+    public void shoot(){
+        Sprite player = eM.getPlayer().getSprite();
+
+
+
+        boolean pressedS = false;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+
+            pressedS = true;
+        }
+        if (pressedS){
+
+
+
+
+        }
+
+
+
+
+
     }
 
     @Override
