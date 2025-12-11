@@ -11,10 +11,10 @@ public class Egg extends Entity {
         super();
 
         size = 1.5f;
-        speed = 3;
+        speed = 6;
         type = "egg";
+        animationRotation = "null";
         changeAnimation("shoot");
-        rotation = "null";
 
         switch (eM.getPlayer().getRotation()){
             case "right":
@@ -35,16 +35,20 @@ public class Egg extends Entity {
 
         Sprite player = eM.getPlayer().getSprite();
         sprite.setPosition(
-            player.getX() + player.getWidth()/2,
-            player.getY() + player.getHeight()/2);
+            player.getX() + player.getWidth()/2 - this.sprite.getWidth()/2,
+            player.getY() + player.getHeight()/2 - this.sprite.getHeight()/2);
 
         eM.addEntity(this);
     }
 
     @Override
     public void update(){
+        offset();
         sprite.setX(sprite.getX()  + vector[0]*speed);
         sprite.setY(sprite.getY()  + vector[1]*speed);
+        if(!rM.checkBounds(sprite.getX(), sprite.getY())){
+            eM.removeEntity(this);
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package Dungeon.Game;
 
+import Dungeon.Game.Entities.Enemies.Fox;
 import Dungeon.Game.Entities.Entity;
 import Dungeon.Game.Entities.EntityManager;
 import Dungeon.Game.Entities.Player.Player;
@@ -14,20 +15,24 @@ public class Logic {
 
     private final EntityManager eM;
     private final RoomManager rM;
+    private final InputManager iM;
     private final Data data;
 
     public Logic() {
         this.eM = EntityManager.getInstance();
         this.data = Data.getInstance();
         this.rM = RoomManager.getInstance();
+        this.iM = InputManager.getInstance();
 
         eM.newPlayer();
+        eM.addEntity(new Fox());
         rM.generateRoom(30, 15);
     }
 
     public void update(){
         eM.update();
         rM.checkMove();
+        iM.update();
     }
 
     public Room getCurrentRoom(){ return rM.getCurrentRoom(); }

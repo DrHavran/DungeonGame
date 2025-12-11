@@ -1,6 +1,7 @@
 package Dungeon.Game.Room;
 
 import Dungeon.Game.Entities.EntityManager;
+import Dungeon.Game.InputManager;
 import Dungeon.Game.Settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -17,6 +18,7 @@ public class RoomManager {
     }
 
     private final EntityManager eM;
+    private final InputManager iM;
     private final RoomGenerator rG;
 
     private final ArrayList<Room> rooms;
@@ -25,6 +27,7 @@ public class RoomManager {
     public RoomManager() {
         this.rG = new RoomGenerator();
         this.eM = EntityManager.getInstance();
+        this.iM = InputManager.getInstance();
         this.rooms = new ArrayList<>();
     }
 
@@ -56,22 +59,22 @@ public class RoomManager {
     public void checkMove(){
         Sprite player = eM.getPlayer().getSprite();
 
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+        if (iM.isW()) {
             if(checkBounds(player.getX(), player.getY() + Settings.speed) && checkBounds(player.getX() + player.getWidth(), player.getY() + Settings.speed)){
                 currentRoom.setYOffset(currentRoom.getYOffset() + Settings.speed);
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+        if (iM.isS()) {
             if(checkBounds(player.getX(), player.getY() - Settings.speed) && checkBounds(player.getX() + player.getWidth(), player.getY() - Settings.speed)){
                 currentRoom.setYOffset(currentRoom.getYOffset() - Settings.speed);
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        if (iM.isA()) {
             if(checkBounds(player.getX() - Settings.speed, player.getY())){
                 currentRoom.setXOffset(currentRoom.getXOffset() - Settings.speed);
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        if (iM.isD()) {
             if(checkBounds(player.getX() + player.getWidth() + Settings.speed, player.getY())){
                 currentRoom.setXOffset(currentRoom.getXOffset() + Settings.speed);
             }

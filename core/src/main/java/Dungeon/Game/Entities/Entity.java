@@ -1,5 +1,8 @@
 package Dungeon.Game.Entities;
 
+import Dungeon.Game.InputManager;
+import Dungeon.Game.Room.RoomManager;
+import Dungeon.Game.Settings;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import java.util.HashMap;
@@ -12,12 +15,15 @@ public abstract class Entity {
     protected int animationSpeed; //in how many updates does frame change
 
     protected final EntityManager eM;
+    protected final InputManager iM;
+    protected final RoomManager rM;
     protected HashMap<String, HashMap<String, Integer>> animations;
 
     protected Sprite sprite;
     protected String animation;
     protected String type;
     protected String rotation;
+    protected String animationRotation;
     protected float size;
 
     protected int speed;
@@ -28,11 +34,14 @@ public abstract class Entity {
         this.sprite = new Sprite();
         this.animations = new HashMap<>();
         this.eM = EntityManager.getInstance();
+        this.iM = InputManager.getInstance();
+        this.rM = RoomManager.getInstance();
 
         this.speed = 0;
         this.frame = 0;
         this.frameCount = 1;
-        this.rotation = "down";
+        this.animationRotation = "right";
+        this.rotation = "right";
     }
 
     public abstract void update();
@@ -61,8 +70,36 @@ public abstract class Entity {
         }
     }
 
+    protected void offset(){
+        Sprite player = eM.getPlayer().getSprite();
+
+        if (iM.isW()) {
+            if(rM.checkBounds(player.getX(), player.getY() + Settings.speed) && rM.checkBounds(player.getX() + player.getWidth(), player.getY() + Settings.speed)){
+                sprite.setY(sprite.getY() - Settings.speed);
+            }
+        }
+        if (iM.isS()) {
+            if(rM.checkBounds(player.getX(), player.getY() - Settings.speed) && rM.checkBounds(player.getX() + player.getWidth(), player.getY() - Settings.speed)){
+                sprite.setY(sprite.getY() + Settings.speed);
+            }
+        }
+        if (iM.isA()) {
+            if(rM.checkBounds(player.getX() - Settings.speed, player.getY())){
+                sprite.setX(sprite.getX() + Settings.speed);
+            }
+        }
+        if (iM.isD()) {
+            if(rM.checkBounds(player.getX() + player.getWidth() + Settings.speed, player.getY())){
+                sprite.setX(sprite.getX() - Settings.speed);
+            }
+        }
+    }
+
     public Sprite getSprite() {
         return sprite;
+    }
+    public String getAnimationRotation() {
+        return animationRotation;
     }
     public String getRotation() {
         return rotation;

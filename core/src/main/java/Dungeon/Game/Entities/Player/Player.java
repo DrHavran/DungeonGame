@@ -3,7 +3,6 @@ package Dungeon.Game.Entities.Player;
 import Dungeon.Game.Entities.Entity;
 import Dungeon.Game.Settings;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 
 import java.util.HashMap;
 
@@ -18,7 +17,7 @@ public class Player extends Entity {
         type = "player";
         changeAnimation("idle");
 
-        sprite.setSize(32*size,29*size);
+        sprite.setSize(23*size,27*size);
         sprite.setPosition((float) Settings.width /2, (float) Settings.height /2);
     }
 
@@ -36,20 +35,22 @@ public class Player extends Entity {
     private void move(){
         boolean pressed = false;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            //rotation = "up";
+        if (iM.isW()) {
+            rotation = "up";
             pressed = true;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            //rotation = "down";
+        if (iM.isS()) {
+            rotation = "down";
             pressed = true;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            //rotation = "left";
+        if (iM.isA()) {
+            animationRotation = "left";
+            rotation = "left";
             pressed = true;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            //rotation = "right";
+        if (iM.isD()) {
+            animationRotation = "right";
+            rotation = "right";
             pressed = true;
         }
 
@@ -61,7 +62,7 @@ public class Player extends Entity {
     }
 
     private void checkShoot(){
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (iM.isSPACE()) {
             new Egg();
         }
     }
@@ -70,7 +71,7 @@ public class Player extends Entity {
     protected void loadAnimations() {
         HashMap<String, Integer> idle = new HashMap<>();
         idle.put("frames", 2);
-        idle.put("speed", 10);
+        idle.put("speed", 15);
 
         HashMap<String, Integer> walk = new HashMap<>();
         walk.put("frames", 6);
