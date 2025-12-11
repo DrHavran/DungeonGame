@@ -18,7 +18,7 @@ public abstract class Entity {
     protected String animation;
     protected String type;
     protected String rotation;
-    protected int size;
+    protected float size;
 
     protected int speed;
     protected int health;
@@ -31,17 +31,21 @@ public abstract class Entity {
 
         this.speed = 0;
         this.frame = 0;
+        this.frameCount = 1;
         this.rotation = "down";
     }
 
-    abstract void update();
-    abstract void loadAnimations();
+    public abstract void update();
+    protected abstract void loadAnimations();
 
     protected void changeAnimation(String string) {
         animation = type + "_" + string + "_";
         //System.out.println("current animation " + animation);
         if(!animations.isEmpty()){
             frameCount = animations.get(string).get("frames");
+            if(frameCount <= frame){
+                frame = 0;
+            }
             animationSpeed = animations.get(string).get("speed");
         }
     }

@@ -1,5 +1,7 @@
 package Dungeon.Game.Entities;
 
+import Dungeon.Game.Entities.Player.Player;
+
 import java.util.ArrayList;
 
 public class EntityManager {
@@ -25,6 +27,7 @@ public class EntityManager {
         for(Entity entity : entities){
             entity.update();
         }
+        player.update();
 
         addEntities();
         removeEntities();
@@ -42,12 +45,8 @@ public class EntityManager {
         toRemove.clear();
     }
 
-    public void addEntity(EntityType type){
-        switch(type){
-            case PLAYER:
-                this.player = new Player();
-                toAdd.add(new Player());
-        }
+    public void addEntity(Entity entity){
+        toAdd.add(entity);
     }
     public void removeEntity(Entity entity){
         toRemove.add(entity);
@@ -56,6 +55,9 @@ public class EntityManager {
     public ArrayList<Entity> getEntities() {
         return entities;
     }   //getters
+    public void newPlayer(){
+        this.player = new Player();
+    }
     public Player getPlayer(){
         return player;
     }

@@ -29,13 +29,14 @@ public class Draw {
         drawRoom(logic.getCurrentRoom());
 
         for(Rectangle rect : logic.getRectangles()){ //draw bounds of the room
-            drawRect(rect);
+            //drawRect(rect);
         }
 
         for(Entity entity : logic.getEntities()){ //draw entities
             draw(entity);
         }
 
+        draw(logic.getPlayer());
     }
 
     private void drawRect(Rectangle rect){
@@ -49,7 +50,7 @@ public class Draw {
 
     private void draw(Entity entity) {
         Sprite sprite = entity.getSprite();
-        Texture texture = logic.getTexture(entity.getAnimation() + "down");
+        Texture texture = logic.getTexture(entity.getAnimation() + entity.getRotation());
         int frameWidth = texture.getWidth() / entity.getFrameCount();
 
         sprite.setTexture(texture);
