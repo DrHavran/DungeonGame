@@ -73,22 +73,22 @@ public abstract class Entity {
     protected void offset(){
         Sprite player = eM.getPlayer().getSprite();
 
-        if (iM.isW()) {
+        if (iM.isW() && !iM.isS()) {
             if(rM.checkBounds(player.getX(), player.getY() + Settings.speed) && rM.checkBounds(player.getX() + player.getWidth(), player.getY() + Settings.speed)){
                 sprite.setY(sprite.getY() - Settings.speed);
             }
         }
-        if (iM.isS()) {
+        if (iM.isS() && !iM.isW()) {
             if(rM.checkBounds(player.getX(), player.getY() - Settings.speed) && rM.checkBounds(player.getX() + player.getWidth(), player.getY() - Settings.speed)){
                 sprite.setY(sprite.getY() + Settings.speed);
             }
         }
-        if (iM.isA()) {
+        if (iM.isA() && !iM.isD()) {
             if(rM.checkBounds(player.getX() - Settings.speed, player.getY())){
                 sprite.setX(sprite.getX() + Settings.speed);
             }
         }
-        if (iM.isD()) {
+        if (iM.isD() && !iM.isA()) {
             if(rM.checkBounds(player.getX() + player.getWidth() + Settings.speed, player.getY())){
                 sprite.setX(sprite.getX() - Settings.speed);
             }

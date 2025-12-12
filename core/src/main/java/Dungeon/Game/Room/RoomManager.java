@@ -59,22 +59,22 @@ public class RoomManager {
     public void checkMove(){
         Sprite player = eM.getPlayer().getSprite();
 
-        if (iM.isW()) {
+        if (iM.isW() && !iM.isS()) {
             if(checkBounds(player.getX(), player.getY() + Settings.speed) && checkBounds(player.getX() + player.getWidth(), player.getY() + Settings.speed)){
                 currentRoom.setYOffset(currentRoom.getYOffset() + Settings.speed);
             }
         }
-        if (iM.isS()) {
+        if (iM.isS() && !iM.isW()) {
             if(checkBounds(player.getX(), player.getY() - Settings.speed) && checkBounds(player.getX() + player.getWidth(), player.getY() - Settings.speed)){
                 currentRoom.setYOffset(currentRoom.getYOffset() - Settings.speed);
             }
         }
-        if (iM.isA()) {
+        if (iM.isA() && !iM.isD()) {
             if(checkBounds(player.getX() - Settings.speed, player.getY())){
                 currentRoom.setXOffset(currentRoom.getXOffset() - Settings.speed);
             }
         }
-        if (iM.isD()) {
+        if (iM.isD() && !iM.isA()) {
             if(checkBounds(player.getX() + player.getWidth() + Settings.speed, player.getY())){
                 currentRoom.setXOffset(currentRoom.getXOffset() + Settings.speed);
             }

@@ -24,6 +24,15 @@ public class Fox extends Entity {
     public void update() {
         updateFrame();
         offset();
+        move();
+    }
+
+    private void move(){
+        if(eM.getPlayer().getSprite().getX() > sprite.getX()){
+            animationRotation = "right";
+        }else{
+            animationRotation = "left";
+        }
     }
 
     @Override
