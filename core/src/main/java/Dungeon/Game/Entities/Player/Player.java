@@ -35,20 +35,20 @@ public class Player extends Entity {
     private void move(){
         boolean pressed = false;
 
-        if (iM.isW()) {
+        if (iM.isW() && !iM.isS()) {
             rotation = "up";
             pressed = true;
         }
-        if (iM.isS()) {
+        if (iM.isS() && !iM.isW()) {
             rotation = "down";
             pressed = true;
         }
-        if (iM.isA()) {
+        if (iM.isA() && !iM.isD()) {
             animationRotation = "left";
             rotation = "left";
             pressed = true;
         }
-        if (iM.isD()) {
+        if (iM.isD() && !iM.isA()) {
             animationRotation = "right";
             rotation = "right";
             pressed = true;

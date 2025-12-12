@@ -1,5 +1,6 @@
 package Dungeon.Game;
 
+import Dungeon.Game.Draw.Draw;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.utils.ScreenUtils;
 

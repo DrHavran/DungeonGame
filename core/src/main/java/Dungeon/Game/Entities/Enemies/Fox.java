@@ -11,6 +11,7 @@ public class Fox extends Entity {
 
         health = 100;
         size = 6;
+        detectRadius = 200;
 
         loadAnimations();
         type = "fox";
@@ -28,6 +29,12 @@ public class Fox extends Entity {
     }
 
     private void move(){
+        if(checkRange()){
+            changeAnimation("walk");
+        }else {
+            changeAnimation("idle");
+        }
+
         if(eM.getPlayer().getSprite().getX() > sprite.getX()){
             animationRotation = "right";
         }else{
@@ -41,6 +48,11 @@ public class Fox extends Entity {
         idle.put("frames", 4);
         idle.put("speed", 15);
 
+        HashMap<String, Integer> walk = new HashMap<>();
+        walk.put("frames", 4);
+        walk.put("speed", 9);
+
+        animations.put("walk", walk);
         animations.put("idle", idle);
     }
 }

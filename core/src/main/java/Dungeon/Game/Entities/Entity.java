@@ -29,6 +29,7 @@ public abstract class Entity {
     protected int speed;
     protected int health;
     protected int damage;
+    protected int detectRadius;
 
     public Entity(){
         this.sprite = new Sprite();
@@ -74,25 +75,32 @@ public abstract class Entity {
         Sprite player = eM.getPlayer().getSprite();
 
         if (iM.isW() && !iM.isS()) {
-            if(rM.checkBounds(player.getX(), player.getY() + Settings.speed) && rM.checkBounds(player.getX() + player.getWidth(), player.getY() + Settings.speed)){
+            if(Settings.noBounds || rM.checkBounds(player.getX(), player.getY() + Settings.speed) && rM.checkBounds(player.getX() + player.getWidth(), player.getY() + Settings.speed)){
                 sprite.setY(sprite.getY() - Settings.speed);
             }
         }
         if (iM.isS() && !iM.isW()) {
-            if(rM.checkBounds(player.getX(), player.getY() - Settings.speed) && rM.checkBounds(player.getX() + player.getWidth(), player.getY() - Settings.speed)){
+            if(Settings.noBounds || rM.checkBounds(player.getX(), player.getY() - Settings.speed) && rM.checkBounds(player.getX() + player.getWidth(), player.getY() - Settings.speed)){
                 sprite.setY(sprite.getY() + Settings.speed);
             }
         }
         if (iM.isA() && !iM.isD()) {
-            if(rM.checkBounds(player.getX() - Settings.speed, player.getY())){
+            if(Settings.noBounds || rM.checkBounds(player.getX() - Settings.speed, player.getY())){
                 sprite.setX(sprite.getX() + Settings.speed);
             }
         }
         if (iM.isD() && !iM.isA()) {
-            if(rM.checkBounds(player.getX() + player.getWidth() + Settings.speed, player.getY())){
+            if(Settings.noBounds || rM.checkBounds(player.getX() + player.getWidth() + Settings.speed, player.getY())){
                 sprite.setX(sprite.getX() - Settings.speed);
             }
         }
+    }
+
+    protected boolean checkRange(){
+        return eM.getPlayer().getSprite().getX() < sprite.getX() + detectRadius + sprite.getWidth()/2 &&
+            eM.getPlayer().getSprite().getX() > sprite.getX() - detectRadius + sprite.getWidth()/2 &&
+            eM.getPlayer().getSprite().getY() < sprite.getY() + detectRadius + sprite.getHeight()/2 &&
+            eM.getPlayer().getSprite().getY() > sprite.getY() - detectRadius + sprite.getHeight()/2;
     }
 
     public Sprite getSprite() {
@@ -106,6 +114,9 @@ public abstract class Entity {
     }
     public String getAnimation() {
         return animation;
+    }
+    public int getDetectRadius() {
+        return detectRadius;
     }
     public int getFrame() {
         return frame;

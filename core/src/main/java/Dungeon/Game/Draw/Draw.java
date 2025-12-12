@@ -1,9 +1,11 @@
-package Dungeon.Game;
+package Dungeon.Game.Draw;
 
 import Dungeon.Game.Entities.Entity;
+import Dungeon.Game.Logic;
 import Dungeon.Game.Room.Room;
 import Dungeon.Game.Room.Tile;
 import Dungeon.Game.Room.TileType;
+import Dungeon.Game.Settings;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -29,17 +31,29 @@ public class Draw {
         drawRoom(logic.getCurrentRoom());
 
         for(Rectangle rect : logic.getRectangles()){ //draw bounds of the room
-            //drawRect(rect);
+            //drawBound(rect);
         }
 
         for(Entity entity : logic.getEntities()){ //draw entities
+            if(Settings.showRadius){
+                drawRadius(entity);
+            }
             draw(entity);
         }
 
         draw(logic.getPlayer());
     }
 
-    private void drawRect(Rectangle rect){
+    private void drawRadius(Entity entity){
+        batch.end();
+        sR.begin(ShapeRenderer.ShapeType.Filled);
+        sR.setColor(Color.RED);
+        sR.rect(entity.getSprite().getX() - entity.getDetectRadius() + entity.getSprite().getWidth()/2, entity.getSprite().getY() - entity.getDetectRadius() + entity.getSprite().getHeight()/2, entity.getDetectRadius()*2, entity.getDetectRadius()*2);
+        sR.end();
+        batch.begin();
+    }
+
+    private void drawBound(Rectangle rect){
         batch.end();
         sR.begin(ShapeRenderer.ShapeType.Filled);
         sR.setColor(Color.RED);

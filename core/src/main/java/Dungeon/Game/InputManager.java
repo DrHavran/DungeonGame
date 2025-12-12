@@ -17,10 +17,10 @@ public class InputManager {
     private boolean SPACE;
 
     public void update() {
-        W = Gdx.input.isKeyPressed(Input.Keys.W);
-        S = Gdx.input.isKeyPressed(Input.Keys.S);
-        A = Gdx.input.isKeyPressed(Input.Keys.A);
-        D = Gdx.input.isKeyPressed(Input.Keys.D);
+        W = Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP);
+        S = Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN);
+        A = Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT);
+        D = Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT);
         SPACE = Gdx.input.isKeyPressed(Input.Keys.SPACE);
     }
 
