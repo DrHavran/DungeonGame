@@ -1,11 +1,9 @@
-package Dungeon.Game.Draw;
+package Dungeon.Game;
 
 import Dungeon.Game.Entities.Entity;
-import Dungeon.Game.Logic;
 import Dungeon.Game.Room.Room;
 import Dungeon.Game.Room.Tile;
 import Dungeon.Game.Room.TileType;
-import Dungeon.Game.Settings;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -64,14 +62,24 @@ public class Draw {
 
     private void draw(Entity entity) {
         Sprite sprite = entity.getSprite();
-        Texture texture = logic.getTexture(entity.getAnimation() + entity.getAnimationRotation());
+        Texture texture = logic.getTexture(entity.getAnimation());
         int frameWidth = texture.getWidth() / entity.getFrameCount();
 
         sprite.setTexture(texture);
-        sprite.setRegion(
-            frameWidth * entity.getFrame(), 0,
-            frameWidth, texture.getHeight()
-        );
+        switch (entity.getAnimationRotation()){
+            case "right":
+                sprite.setRegion(
+                    frameWidth * entity.getFrame(), 0,
+                    frameWidth, texture.getHeight()
+                );
+                break;
+
+            case "left":
+                sprite.setRegion(
+                    frameWidth * entity.getFrame() + frameWidth, 0,
+                    -frameWidth, texture.getHeight()
+                );
+        }
 
         sprite.draw(batch);
     }

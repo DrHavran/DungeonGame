@@ -1,6 +1,6 @@
 package Dungeon.Game;
 
-import Dungeon.Game.Entities.Enemies.Fox;
+import Dungeon.Game.Entities.Enemies.*;
 import Dungeon.Game.Entities.Entity;
 import Dungeon.Game.Entities.EntityManager;
 import Dungeon.Game.Entities.Player.Player;

@@ -49,7 +49,7 @@ public abstract class Entity {
     protected abstract void loadAnimations();
 
     protected void changeAnimation(String string) {
-        animation = type + "_" + string + "_";
+        animation = type + "_" + string;
         //System.out.println("current animation " + animation);
         if(!animations.isEmpty()){
             frameCount = animations.get(string).get("frames");
@@ -98,9 +98,13 @@ public abstract class Entity {
 
     protected boolean checkRange(){
         return eM.getPlayer().getSprite().getX() < sprite.getX() + detectRadius + sprite.getWidth()/2 &&
-            eM.getPlayer().getSprite().getX() > sprite.getX() - detectRadius + sprite.getWidth()/2 &&
+            eM.getPlayer().getSprite().getX() + eM.getPlayer().getSprite().getWidth() > sprite.getX() - detectRadius + sprite.getWidth()/2 &&
             eM.getPlayer().getSprite().getY() < sprite.getY() + detectRadius + sprite.getHeight()/2 &&
-            eM.getPlayer().getSprite().getY() > sprite.getY() - detectRadius + sprite.getHeight()/2;
+            eM.getPlayer().getSprite().getY() + eM.getPlayer().getSprite().getHeight() > sprite.getY() - detectRadius + sprite.getHeight()/2;
+    }
+
+    protected boolean touchingPlayer(){
+        return eM.getPlayer().getSprite().getBoundingRectangle().overlaps(sprite.getBoundingRectangle());
     }
 
     public Sprite getSprite() {

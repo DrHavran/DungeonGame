@@ -4,17 +4,17 @@ import Dungeon.Game.Entities.Entity;
 
 import java.util.HashMap;
 
-public class Fox extends Entity {
+public class Wolf extends Entity {
 
-    public Fox() {
+    public Wolf() {
         super();
 
         health = 100;
-        size = 5;
+        size = 4;
         detectRadius = 200;
 
         loadAnimations();
-        type = "fox";
+        type = "wolf";
         changeAnimation("idle");
 
         sprite.setSize(32*size,32*size);
@@ -29,11 +29,9 @@ public class Fox extends Entity {
     }
 
     private void move(){
-        if (touchingPlayer()){
-            changeAnimation("attack");
-        }else if(checkRange()){
+        if(checkRange()){
             changeAnimation("walk");
-        }else{
+        }else {
             changeAnimation("idle");
         }
 
@@ -48,18 +46,13 @@ public class Fox extends Entity {
     protected void loadAnimations() {
         HashMap<String, Integer> idle = new HashMap<>();
         idle.put("frames", 4);
-        idle.put("speed", 15);
+        idle.put("speed", 10);
 
         HashMap<String, Integer> walk = new HashMap<>();
-        walk.put("frames", 4);
+        walk.put("frames", 6);
         walk.put("speed", 9);
 
-        HashMap<String, Integer> attack = new HashMap<>();
-        attack.put("frames", 7);
-        attack.put("speed", 9);
-
         animations.put("walk", walk);
-        animations.put("attack", attack);
         animations.put("idle", idle);
     }
 }
