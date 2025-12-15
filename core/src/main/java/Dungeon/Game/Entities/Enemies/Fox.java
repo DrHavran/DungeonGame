@@ -32,7 +32,7 @@ public class Fox extends Entity {
         if (touchingPlayer()){
             changeAnimation("attack");
         }else if(checkRange()){
-            changeAnimation("walk");
+            changeAnimation("jump");
         }else{
             changeAnimation("idle");
         }
@@ -54,12 +54,17 @@ public class Fox extends Entity {
         walk.put("frames", 4);
         walk.put("speed", 9);
 
-        HashMap<String, Integer> attack = new HashMap<>();
-        attack.put("frames", 7);
-        attack.put("speed", 9);
+        HashMap<String, Integer> jump = new HashMap<>();
+        jump.put("frames", 4);
+        jump.put("speed", 10);
+
+        HashMap<String, Integer> chomp = new HashMap<>();
+        chomp.put("frames", 7);
+        chomp.put("speed", 9);
 
         animations.put("walk", walk);
-        animations.put("attack", attack);
+        animations.put("jump", jump);
+        animations.put("chomp", chomp);
         animations.put("idle", idle);
     }
 }

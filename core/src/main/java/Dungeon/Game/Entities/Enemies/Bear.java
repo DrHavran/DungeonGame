@@ -4,17 +4,17 @@ import Dungeon.Game.Entities.Entity;
 
 import java.util.HashMap;
 
-public class Wolf extends Entity {
+public class Bear extends Entity {
 
-    public Wolf() {
+    public Bear() {
         super();
 
         health = 100;
-        size = 4;
+        size = 6;
         detectRadius = 200;
 
         loadAnimations();
-        type = "wolf";
+        type = "bear";
         changeAnimation("idle");
 
         sprite.setSize(32*size,32*size);
@@ -30,9 +30,9 @@ public class Wolf extends Entity {
 
     private void move(){
         if (touchingPlayer()){
-            changeAnimation("chomp2");
+            changeAnimation("swipe");
         }else if(checkRange()){
-            changeAnimation("idle");
+            changeAnimation("walk");
         }else{
             changeAnimation("taunt");
         }
@@ -48,32 +48,32 @@ public class Wolf extends Entity {
     protected void loadAnimations() {
         HashMap<String, Integer> idle = new HashMap<>();
         idle.put("frames", 4);
-        idle.put("speed", 13);
+        idle.put("speed", 14);
 
         HashMap<String, Integer> walk = new HashMap<>();
         walk.put("frames", 6);
-        walk.put("speed", 11);
+        walk.put("speed", 10);
 
         HashMap<String, Integer> jump = new HashMap<>();
-        jump.put("frames", 5);
-        jump.put("speed", 10);
+        jump.put("frames", 4);
+        jump.put("speed", 11);
 
         HashMap<String, Integer> chomp = new HashMap<>();
         chomp.put("frames", 6);
         chomp.put("speed", 9);
 
-        HashMap<String, Integer> chomp2 = new HashMap<>();
-        chomp2.put("frames", 6);
-        chomp2.put("speed", 9);
+        HashMap<String, Integer> swipe = new HashMap<>();
+        swipe.put("frames", 7);
+        swipe.put("speed", 9);
 
         HashMap<String, Integer> taunt = new HashMap<>();
-        taunt.put("frames", 10);
-        taunt.put("speed", 8);
+        taunt.put("frames", 11);
+        taunt.put("speed", 9);
 
         animations.put("walk", walk);
         animations.put("jump", jump);
         animations.put("chomp", chomp);
-        animations.put("chomp2", chomp2);
+        animations.put("swipe", swipe);
         animations.put("taunt", taunt);
         animations.put("idle", idle);
     }
