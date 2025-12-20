@@ -11,6 +11,7 @@ public class Fox extends Entity {
 
         health = 100;
         size = 5;
+        speed = 3;
         detectRadius = 200;
 
         loadAnimations();
@@ -29,12 +30,18 @@ public class Fox extends Entity {
     }
 
     private void move(){
-        if (touchingPlayer()){
-            changeAnimation("attack");
-        }else if(checkRange()){
-            changeAnimation("jump");
+
+        if(!touchingPlayer()){
+            if(checkRange()){
+                isAttacking = true;
+                changeAnimation("walk");
+            }
+
+            if(isAttacking){
+                moveToPlayer();
+            }
         }else{
-            changeAnimation("idle");
+            changeAnimation("chomp");
         }
 
         if(eM.getPlayer().getSprite().getX() > sprite.getX()){

@@ -26,6 +26,7 @@ public class Bear extends Entity {
         updateFrame();
         offset();
         move();
+        moveToPlayer();
     }
 
     private void move(){

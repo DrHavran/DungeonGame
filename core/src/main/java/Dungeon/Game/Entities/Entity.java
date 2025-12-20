@@ -30,6 +30,7 @@ public abstract class Entity {
     protected int health;
     protected int damage;
     protected int detectRadius;
+    protected boolean isAttacking;
 
     public Entity(){
         this.sprite = new Sprite();
@@ -41,6 +42,7 @@ public abstract class Entity {
         this.speed = 0;
         this.frame = 0;
         this.frameCount = 1;
+        this.isAttacking = false;
         this.animationRotation = "right";
         this.rotation = "right";
     }
@@ -105,6 +107,40 @@ public abstract class Entity {
 
     protected boolean touchingPlayer(){
         return eM.getPlayer().getSprite().getBoundingRectangle().overlaps(sprite.getBoundingRectangle());
+    }
+
+    protected void moveToPlayer(){
+        double x = (eM.getPlayer().getSprite().getX() + eM.getPlayer().getSprite().getWidth()/2) - (sprite.getX() + sprite.getWidth()/2);
+        double y = (eM.getPlayer().getSprite().getY() + eM.getPlayer().getSprite().getHeight()/2) - (sprite.getY()  + sprite.getHeight()/2);
+        double length = Math.sqrt(x * x + y * y);
+
+        float normalizedX = (float) (x / length * speed);
+        float normalizedY = (float) (y / length * speed);
+
+        if(normalizedX > 0){
+            if(rM.checkBounds(sprite.getX() + sprite.getWidth() + normalizedX, sprite.getY())){
+                sprite.setX(sprite.getX() + normalizedX);
+            }else{
+                normalizedY = speed;
+            }
+        }else{
+            if(rM.checkBounds(sprite.getX() + normalizedX, sprite.getY())){
+                sprite.setX(sprite.getX() + normalizedX);
+            }
+            else{
+                normalizedY = -speed;
+            }
+        }
+
+        if(normalizedY > 0){
+            if(rM.checkBounds(sprite.getX(), sprite.getY() + sprite.getHeight() + normalizedY)){
+                sprite.setY(sprite.getY() + normalizedY);
+            }
+        }else{
+            if(rM.checkBounds(sprite.getX(), sprite.getY() + normalizedY)){
+                sprite.setY(sprite.getY() + normalizedY);
+            }
+        }
     }
 
     public Sprite getSprite() {

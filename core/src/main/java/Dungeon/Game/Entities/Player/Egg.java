@@ -3,6 +3,8 @@ package Dungeon.Game.Entities.Player;
 import Dungeon.Game.Entities.Entity;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+import java.util.HashMap;
+
 public class Egg extends Entity {
 
     private final int[] vector = {0, 0};
@@ -13,7 +15,6 @@ public class Egg extends Entity {
         size = 1.5f;
         speed = 6;
         type = "egg";
-        animationRotation = "null";
         changeAnimation("shoot");
 
         switch (eM.getPlayer().getRotation()){
@@ -53,7 +54,6 @@ public class Egg extends Entity {
 
     @Override
     protected void loadAnimations(){
-
     }
 }
 

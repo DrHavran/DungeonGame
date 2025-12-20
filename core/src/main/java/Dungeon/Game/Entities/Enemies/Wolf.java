@@ -26,6 +26,7 @@ public class Wolf extends Entity {
         updateFrame();
         offset();
         move();
+        moveToPlayer();
     }
 
     private void move(){
