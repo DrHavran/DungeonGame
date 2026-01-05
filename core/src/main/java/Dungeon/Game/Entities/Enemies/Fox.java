@@ -11,7 +11,7 @@ public class Fox extends Entity {
 
         health = 100;
         size = 5;
-        speed = 3;
+        speed = 1;
         detectRadius = 200;
 
         loadAnimations();

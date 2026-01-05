@@ -26,17 +26,9 @@ public class Wolf extends Entity {
         updateFrame();
         offset();
         move();
-        moveToPlayer();
     }
 
     private void move(){
-        if (touchingPlayer()){
-            changeAnimation("chomp2");
-        }else if(checkRange()){
-            changeAnimation("idle");
-        }else{
-            changeAnimation("taunt");
-        }
 
         if(eM.getPlayer().getSprite().getX() > sprite.getX()){
             animationRotation = "right";

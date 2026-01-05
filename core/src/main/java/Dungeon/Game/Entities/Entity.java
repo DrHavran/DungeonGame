@@ -117,22 +117,19 @@ public abstract class Entity {
         float normalizedX = (float) (x / length * speed);
         float normalizedY = (float) (y / length * speed);
 
+        System.out.println(normalizedX + " " + normalizedY);
+
         if(normalizedX > 0){
             if(rM.checkBounds(sprite.getX() + sprite.getWidth() + normalizedX, sprite.getY())){
                 sprite.setX(sprite.getX() + normalizedX);
-            }else{
-                normalizedY = speed;
             }
         }else{
             if(rM.checkBounds(sprite.getX() + normalizedX, sprite.getY())){
                 sprite.setX(sprite.getX() + normalizedX);
             }
-            else{
-                normalizedY = -speed;
-            }
         }
 
-        if(normalizedY > 0){
+        if(normalizedY < 0){
             if(rM.checkBounds(sprite.getX(), sprite.getY() + sprite.getHeight() + normalizedY)){
                 sprite.setY(sprite.getY() + normalizedY);
             }

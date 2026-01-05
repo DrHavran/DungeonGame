@@ -26,17 +26,9 @@ public class Bear extends Entity {
         updateFrame();
         offset();
         move();
-        moveToPlayer();
     }
 
     private void move(){
-        if (touchingPlayer()){
-            changeAnimation("swipe");
-        }else if(checkRange()){
-            changeAnimation("walk");
-        }else{
-            changeAnimation("taunt");
-        }
 
         if(eM.getPlayer().getSprite().getX() > sprite.getX()){
             animationRotation = "right";

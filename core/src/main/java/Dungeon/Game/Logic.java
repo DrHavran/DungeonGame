@@ -25,14 +25,14 @@ public class Logic {
         this.iM = InputManager.getInstance();
 
         eM.newPlayer();
-        eM.addEntity(new Fox());
-        rM.generateRoom(30, 15);
+        //eM.addEntity(new Fox());
+        rM.generateRoom(10, 10);
     }
 
     public void update(){
+        iM.update();
         eM.update();
         rM.checkMove();
-        iM.update();
     }
 
     public Room getCurrentRoom(){ return rM.getCurrentRoom(); }
