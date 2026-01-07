@@ -10,7 +10,7 @@ public class Wolf extends Entity {
         super();
 
         health = 100;
-        size = 4;
+        size = 7;
         detectRadius = 200;
 
         loadAnimations();
@@ -30,7 +30,7 @@ public class Wolf extends Entity {
 
     private void move(){
 
-        if(eM.getPlayer().getSprite().getX() > sprite.getX()){
+        if(eM.getPlayer().getSprite().getX()+eM.getPlayer().getSprite().getWidth()/2 > sprite.getX() + sprite.getWidth()/2){
             animationRotation = "right";
         }else{
             animationRotation = "left";

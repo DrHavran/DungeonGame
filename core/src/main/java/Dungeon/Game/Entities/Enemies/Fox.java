@@ -11,7 +11,7 @@ public class Fox extends Entity {
 
         health = 100;
         size = 5;
-        speed = 1;
+        speed = 3;
         detectRadius = 200;
 
         loadAnimations();
@@ -44,7 +44,7 @@ public class Fox extends Entity {
             changeAnimation("chomp");
         }
 
-        if(eM.getPlayer().getSprite().getX() > sprite.getX()){
+        if(eM.getPlayer().getSprite().getX()+eM.getPlayer().getSprite().getWidth()/2 > sprite.getX() + sprite.getWidth()/2){
             animationRotation = "right";
         }else{
             animationRotation = "left";
