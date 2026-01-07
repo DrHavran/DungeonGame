@@ -33,12 +33,12 @@ public class Tile {
         for(String wall : walls){
             switch (wall){
                 case "up":
-                    regionHeight += 30;
+                    regionHeight += 31;
                     regionY = 0;
                     break;
                 case "down":
-                    regionHeight += 7;
-                    sprite.setY(sprite.getY() - 7 * scale);
+                    regionHeight += 6;
+                    sprite.setY(sprite.getY() - 6 * scale);
                     break;
                 case "right":
                     regionWidth += 6;

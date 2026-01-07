@@ -8,4 +8,5 @@ public class Settings {
     public static int speed = 5;
     public static boolean noBounds = false;
     public static boolean showRadius = false;
+    public static boolean showBounds = false;
 }

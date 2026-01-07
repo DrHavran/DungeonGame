@@ -19,7 +19,7 @@ public class Room {
         this.tiles = new ArrayList<>();
         this.bounds = new ArrayList<>();
 
-        yOffset = 100;
+        //yOffset = 100;
     }
 
     public void edit(){

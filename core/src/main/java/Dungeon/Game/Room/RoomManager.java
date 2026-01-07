@@ -3,8 +3,6 @@ package Dungeon.Game.Room;
 import Dungeon.Game.Entities.EntityManager;
 import Dungeon.Game.InputManager;
 import Dungeon.Game.Settings;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 
