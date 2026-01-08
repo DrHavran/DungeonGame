@@ -129,7 +129,7 @@ public abstract class Entity {
             }
         }
 
-        if(normalizedY < 0){
+        if(normalizedY > 0){
             if(rM.checkBounds(sprite.getX(), sprite.getY() + sprite.getHeight() + normalizedY)){
                 sprite.setY(sprite.getY() + normalizedY);
             }

@@ -123,6 +123,7 @@ public class RoomManager {
                    cords[0] = cords[0] + 1;
                }
                 System.out.println("Switched rooms");
+                eM.getEntities().clear();
                 sprite.setX(lastX);
                 sprite.setY(lastY);
                 break;

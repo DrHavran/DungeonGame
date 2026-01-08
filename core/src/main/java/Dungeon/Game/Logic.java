@@ -25,7 +25,7 @@ public class Logic {
         this.iM = InputManager.getInstance();
 
         eM.newPlayer();
-        //eM.addEntity(new Fox());
+        eM.addEntity(new Fox());
     }
 
     public void update(){
