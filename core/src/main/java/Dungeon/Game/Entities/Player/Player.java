@@ -18,7 +18,7 @@ public class Player extends Entity {
         changeAnimation("idle");
 
         sprite.setSize(23*size,27*size);
-        sprite.setPosition((float) Settings.width /2, (float) Settings.height /2);
+        sprite.setPosition((float) Settings.width/2, (float) Settings.height/2);
     }
 
     @Override

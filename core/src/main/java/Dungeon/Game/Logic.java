@@ -26,7 +26,6 @@ public class Logic {
 
         eM.newPlayer();
         //eM.addEntity(new Fox());
-        rM.generateRoom(10, 10);
     }
 
     public void update(){

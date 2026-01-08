@@ -10,6 +10,7 @@ public class Room {
 
     private int[][] room;
     private final ArrayList<Tile> tiles;
+    private final ArrayList<Tile> doors;
     private final ArrayList<Rectangle> bounds;
 
     private float xOffset;
@@ -18,8 +19,7 @@ public class Room {
     public Room() {
         this.tiles = new ArrayList<>();
         this.bounds = new ArrayList<>();
-
-        //yOffset = 100;
+        this.doors = new ArrayList<>();
     }
 
     public void edit(){
@@ -47,6 +47,7 @@ public class Room {
                         break;
                     case 2:
                         tile.setType(TileType.GOLDEN_DOOR_OPEN);
+                        doors.add(tile);
                         break;
                 }
                 checkWalls(tile, row, col);
@@ -106,6 +107,9 @@ public class Room {
     public ArrayList<Tile> getTiles() {
         return tiles;
     }
+    public ArrayList<Tile> getDoors() {
+        return doors;
+    }
     public float getXOffset() {
         return xOffset;
     }
@@ -120,5 +124,11 @@ public class Room {
     }
     public ArrayList<Rectangle> getBounds(){
         return bounds;
+    }
+    public int getHeight(){
+        return room.length;
+    }
+    public int getWidth(){
+        return room[0].length;
     }
 }

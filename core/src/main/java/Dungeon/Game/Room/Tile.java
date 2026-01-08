@@ -55,6 +55,9 @@ public class Tile {
         sprite.setSize(regionWidth * scale, regionHeight * scale);
     }
 
+    public boolean checkWall(String wall){
+         return walls.contains(wall);
+    }
     public void addWall(String wall){
         walls.add(wall);
     }
