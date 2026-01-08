@@ -7,9 +7,15 @@ import com.badlogic.gdx.Gdx;
 import java.util.HashMap;
 
 public class Player extends Entity {
+
+    private final int shootDelay;
+    private int shootCount;
+
     public Player() {
         super();
 
+        shootDelay = 30;
+        shootCount = 0;
         health = 100;
         size = 3;
 
@@ -62,8 +68,12 @@ public class Player extends Entity {
     }
 
     private void checkShoot(){
-        if (iM.isSPACE()) {
+        if(shootCount > 0){
+            shootCount--;
+        }
+        if (iM.isSPACE() && shootCount == 0) {
             new Egg();
+            shootCount = shootDelay;
         }
     }
 
