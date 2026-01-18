@@ -57,7 +57,7 @@ public class Draw {
         batch.end();
         sR.begin(ShapeRenderer.ShapeType.Filled);
         sR.setColor(Color.RED);
-        sR.rect(rect.x - logic.getCurrentRoom().getXOffset(), rect.y - logic.getCurrentRoom().getYOffset(), rect.width, rect.height);
+        sR.rect(rect.x - logic.getXOffset(), rect.y - logic.getYOffset(), rect.width, rect.height);
         sR.end();
         batch.begin();
     }
@@ -97,8 +97,8 @@ public class Draw {
             float lastX = sprite.getX();
             float lastY = sprite.getY();
 
-            sprite.setX(sprite.getX() - room.getXOffset());
-            sprite.setY(sprite.getY() - room.getYOffset());
+            sprite.setX(sprite.getX() - logic.getXOffset());
+            sprite.setY(sprite.getY() - logic.getYOffset());
 
             sprite.draw(batch);
 

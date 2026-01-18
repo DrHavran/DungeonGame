@@ -13,9 +13,6 @@ public class Room {
     private final ArrayList<Tile> doors;
     private final ArrayList<Rectangle> bounds;
 
-    private float xOffset;
-    private float yOffset;
-
     public Room() {
         this.tiles = new ArrayList<>();
         this.bounds = new ArrayList<>();
@@ -109,18 +106,6 @@ public class Room {
     }
     public ArrayList<Tile> getDoors() {
         return doors;
-    }
-    public float getXOffset() {
-        return xOffset;
-    }
-    public float getYOffset() {
-        return yOffset;
-    }
-    public void setXOffset(float xOffset) {
-        this.xOffset = xOffset;
-    }
-    public void setYOffset(float yOffset) {
-        this.yOffset = yOffset;
     }
     public ArrayList<Rectangle> getBounds(){
         return bounds;

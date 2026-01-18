@@ -25,7 +25,7 @@ public class Logic {
         this.iM = InputManager.getInstance();
 
         eM.newPlayer();
-        eM.addEntity(new Fox());
+        //eM.addEntity(new Fox());
     }
 
     public void update(){
@@ -34,7 +34,11 @@ public class Logic {
         rM.checkMove();
     }
 
-    public Room getCurrentRoom(){ return rM.getCurrentRoom(); }
+    public float getXOffset(){ return rM.getXOffset(); }
+    public float getYOffset(){ return rM.getYOffset(); }
+    public Room getCurrentRoom() {
+        return rM.getCurrentRoom();
+    }
     public Texture getTexture(String name){return data.get(name);}
     public ArrayList<Entity> getEntities() {
         return eM.getEntities();
