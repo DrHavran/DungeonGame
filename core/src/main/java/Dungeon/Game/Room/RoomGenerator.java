@@ -28,10 +28,8 @@ public class RoomGenerator {
             room[4][0] = 2;
         }
         if(rooms.contains("right")){
-            room[4][8] = 2;
+            room[4][9] = 2;
         }
-
-
 
         return room;
     }

@@ -35,7 +35,6 @@ public class RoomManager {
         generateFloor();
         cords = new int[]{0, 3};
         currentRoom = rooms[3][0];
-
     }
 
     public void generateFloor(){
@@ -57,18 +56,10 @@ public class RoomManager {
 
                     ArrayList<String> adjRooms = new ArrayList<>();
 
-                    if(y == 0 || floor[y-1][x] == 0){
-                        adjRooms.add("up");
-                    }
-                    if(y == floor.length - 1 || floor[y+1][x] == 0){
-                        adjRooms.add("down");
-                    }
-                    if(x == 0 || floor[y][x-1] == 0){
-                        adjRooms.add("left");
-                    }
-                    if(x == floor[y].length - 1 || floor[y][x+1] == 0){
-                        adjRooms.add("right");
-                    }
+                    if (y > 0 && floor[y - 1][x] == 1) adjRooms.add("up");
+                    if (y < floor.length - 1 && floor[y + 1][x] == 1) adjRooms.add("down");
+                    if (x > 0 && floor[y][x - 1] == 1) adjRooms.add("left");
+                    if (x < floor[y].length - 1 && floor[y][x + 1] == 1) adjRooms.add("right");
 
                     room.setRoom(rG.generateRoom(10, 10, adjRooms));
                     room.edit();
@@ -135,23 +126,27 @@ public class RoomManager {
             sprite.setY(sprite.getY() - yOffset);
 
             if(player.getBoundingRectangle().overlaps(door.getSprite().getBoundingRectangle())){
-                if(door.checkWall("up")) {
-                    currentRoom = rooms[cords[0]][cords[1] - 1];
-                    yOffset -= currentRoom.getHeight() * Settings.roomScale * 32;
-                    cords[1]--;
-                }else if(door.checkWall("down")) {
-                    currentRoom = rooms[cords[0]][cords[1] + 1];
-                    yOffset += currentRoom.getHeight() * Settings.roomScale * 32;
-                    cords[1]++;
-                }else if(door.checkWall("left")) {
-                    currentRoom = rooms[cords[0] - 1][cords[1]];
-                    xOffset += currentRoom.getWidth() * Settings.roomScale * 32 - player.getWidth();
+                if (door.checkWall("left")) {
                     cords[0]--;
-                }else if(door.checkWall("right")) {
-                    currentRoom = rooms[cords[0]+1][cords[1]];
-                    xOffset -= currentRoom.getWidth() * Settings.roomScale * 32 - player.getWidth();
-                    cords[0]++;
+                    currentRoom = rooms[cords[1]][cords[0]]; // [y][x]
+                    xOffset += currentRoom.getWidth() * Settings.roomScale * 32 - player.getWidth();
                 }
+                if (door.checkWall("right")) {
+                    cords[0]++;
+                    currentRoom = rooms[cords[1]][cords[0]]; // [y][x]
+                    xOffset -= currentRoom.getWidth() * Settings.roomScale * 32 - player.getWidth();
+                }
+                if (door.checkWall("up")) {
+                    cords[1]--;
+                    currentRoom = rooms[cords[1]][cords[0]];
+                    yOffset -= currentRoom.getHeight() * Settings.roomScale * 32;
+                }
+                if (door.checkWall("down")) {
+                    cords[1]++;
+                    currentRoom = rooms[cords[1]][cords[0]];
+                    yOffset += currentRoom.getHeight() * Settings.roomScale * 32;
+                }
+
                 eM.getEntities().clear();
                 sprite.setX(lastX);
                 sprite.setY(lastY);
