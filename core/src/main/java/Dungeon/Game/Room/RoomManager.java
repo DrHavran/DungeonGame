@@ -22,8 +22,8 @@ public class RoomManager {
     private float xOffset;
     private float yOffset;
 
-    private final Room[][] rooms;
-    private final int[] cords;
+    private Room[][] rooms;
+    private int[] cords;
     private Room currentRoom;
 
     public RoomManager() {
@@ -31,13 +31,14 @@ public class RoomManager {
         this.eM = EntityManager.getInstance();
         this.iM = InputManager.getInstance();
 
-        this.rooms = new Room[8][7];
         generateFloor();
-        cords = new int[]{0, 3};
-        currentRoom = rooms[3][0];
     }
 
     public void generateFloor(){
+        rooms = new Room[8][7];
+        cords = new int[]{0, 3};
+        currentRoom = rooms[3][0];
+
         int[][] floor = new int[][]{
             {0, 0, 0, 0, 1, 0, 0},
             {0, 0, 1, 1, 1, 0, 0},
@@ -61,8 +62,7 @@ public class RoomManager {
                     if (x > 0 && floor[y][x - 1] == 1) adjRooms.add("left");
                     if (x < floor[y].length - 1 && floor[y][x + 1] == 1) adjRooms.add("right");
 
-                    room.setRoom(rG.generateRoom(10, 10, adjRooms));
-                    room.edit();
+                    room.setRoom(rG.generateRoom(5, 5, adjRooms));
 
                     rooms[y][x] = room;
                 }
@@ -128,12 +128,12 @@ public class RoomManager {
             if(player.getBoundingRectangle().overlaps(door.getSprite().getBoundingRectangle())){
                 if (door.checkWall("left")) {
                     cords[0]--;
-                    currentRoom = rooms[cords[1]][cords[0]]; // [y][x]
+                    currentRoom = rooms[cords[1]][cords[0]];
                     xOffset += currentRoom.getWidth() * Settings.roomScale * 32 - player.getWidth();
                 }
                 if (door.checkWall("right")) {
                     cords[0]++;
-                    currentRoom = rooms[cords[1]][cords[0]]; // [y][x]
+                    currentRoom = rooms[cords[1]][cords[0]];
                     xOffset -= currentRoom.getWidth() * Settings.roomScale * 32 - player.getWidth();
                 }
                 if (door.checkWall("up")) {

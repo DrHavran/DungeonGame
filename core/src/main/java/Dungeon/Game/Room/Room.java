@@ -3,10 +3,8 @@ package Dungeon.Game.Room;
 import Dungeon.Game.Settings;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
-import org.w3c.dom.ls.LSOutput;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Room {
 
@@ -21,7 +19,7 @@ public class Room {
         this.doors = new ArrayList<>();
     }
 
-    public void edit(){
+    private void edit(){
         convert();
         group();
         createArea();
@@ -45,7 +43,11 @@ public class Room {
                         tile.setType(TileType.NORMAL);
                         break;
                     case 2:
-                        tile.setType(TileType.GOLDEN_DOOR_OPEN);
+                        tile.setType(TileType.DOOR);
+                        doors.add(tile);
+                        break;
+                    case 3:
+                        tile.setType(TileType.ITEM);
                         doors.add(tile);
                         break;
                 }
@@ -102,6 +104,7 @@ public class Room {
 
     public void setRoom(int[][] room) {
         this.room = room;
+        edit();
     }
     public ArrayList<Tile> getTiles() {
         return tiles;
