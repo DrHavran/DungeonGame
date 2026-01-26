@@ -90,8 +90,4 @@ public class Player extends Entity {
         animations.put("walk", walk);
         animations.put("idle", idle);
     }
-
-    public void damage(int hit) {
-        health -= hit;
-    }
 }

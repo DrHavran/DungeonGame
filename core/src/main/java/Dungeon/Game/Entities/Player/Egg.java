@@ -3,8 +3,6 @@ package Dungeon.Game.Entities.Player;
 import Dungeon.Game.Entities.Entity;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-import java.util.HashMap;
-
 public class Egg extends Entity {
 
     private final int[] vector = {0, 0};
@@ -33,6 +31,7 @@ public class Egg extends Entity {
         }
 
         sprite.setSize(15*size,16*size);
+        sprite.setOriginCenter();
 
         Sprite player = god.getPlayer().getSprite();
         sprite.setPosition(
@@ -47,8 +46,20 @@ public class Egg extends Entity {
         offset();
         sprite.setX(sprite.getX()  + vector[0]*speed);
         sprite.setY(sprite.getY()  + vector[1]*speed);
+        sprite.rotate(5);
+
         if(!god.checkBounds(sprite.getX(), sprite.getY())){
             god.removeEntity(this);
+        }
+
+        for(Entity entity : god.getCurrentRoom().getEntities()){
+            if(entity instanceof Egg){
+                continue;
+            }
+            if(sprite.getBoundingRectangle().overlaps(entity.getSprite().getBoundingRectangle())){
+                god.removeEntity(this);
+                god.removeEntity(entity);
+            }
         }
     }
 

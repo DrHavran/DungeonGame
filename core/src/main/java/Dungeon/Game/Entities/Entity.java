@@ -27,7 +27,6 @@ public abstract class Entity {
 
     protected int speed;
     protected int health;
-    protected int damage;
     protected int detectRadius;
     protected boolean isAttacking;
 
