@@ -1,5 +1,7 @@
 package Dungeon.Game.Room;
 
+import Dungeon.Game.Entities.Enemies.Fox;
+import Dungeon.Game.Entities.Entity;
 import Dungeon.Game.Settings;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
@@ -7,13 +9,14 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 
 public class Room {
-
+    private final ArrayList<Entity> entities;
     private int[][] room;
     private final ArrayList<Tile> tiles;
     private final ArrayList<Tile> doors;
     private final ArrayList<Rectangle> bounds;
 
     public Room() {
+        this.entities = new ArrayList<>();
         this.tiles = new ArrayList<>();
         this.bounds = new ArrayList<>();
         this.doors = new ArrayList<>();
@@ -44,10 +47,6 @@ public class Room {
                         break;
                     case 2:
                         tile.setType(TileType.DOOR);
-                        doors.add(tile);
-                        break;
-                    case 3:
-                        tile.setType(TileType.ITEM);
                         doors.add(tile);
                         break;
                 }
@@ -114,6 +113,9 @@ public class Room {
     }
     public ArrayList<Rectangle> getBounds(){
         return bounds;
+    }
+    public ArrayList<Entity> getEntities() {
+        return entities;
     }
     public int getHeight(){
         return room.length;

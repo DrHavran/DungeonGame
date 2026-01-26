@@ -29,8 +29,7 @@ public class Bear extends Entity {
     }
 
     private void move(){
-
-        if(eM.getPlayer().getSprite().getX()+eM.getPlayer().getSprite().getWidth()/2 > sprite.getX() + sprite.getWidth()/2){
+        if(god.getPlayer().getSprite().getX() + god.getPlayer().getSprite().getWidth()/2 > sprite.getX() + sprite.getWidth()/2){
             animationRotation = "right";
         }else{
             animationRotation = "left";

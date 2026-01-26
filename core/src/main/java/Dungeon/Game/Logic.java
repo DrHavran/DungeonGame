@@ -1,11 +1,8 @@
 package Dungeon.Game;
 
-import Dungeon.Game.Entities.Enemies.*;
-import Dungeon.Game.Entities.Entity;
-import Dungeon.Game.Entities.EntityManager;
+import Dungeon.Game.Entities.Enemies.Fox;
 import Dungeon.Game.Entities.Player.Player;
 import Dungeon.Game.Room.Room;
-import Dungeon.Game.Room.RoomManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -13,40 +10,35 @@ import java.util.ArrayList;
 
 public class Logic {
 
-    private final EntityManager eM;
-    private final RoomManager rM;
+    private final GodManager god;
     private final InputManager iM;
     private final Data data;
 
     public Logic() {
-        this.eM = EntityManager.getInstance();
+        this.god = GodManager.getInstance();
         this.data = Data.getInstance();
-        this.rM = RoomManager.getInstance();
         this.iM = InputManager.getInstance();
 
-        eM.newPlayer();
-        //eM.addEntity(new Fox());
+        god.newPlayer();
+        god.addEntity(new Fox());
     }
 
     public void update(){
         iM.update();
-        eM.update();
-        rM.checkMove();
+        god.update();
+        god.checkMove();
     }
 
-    public float getXOffset(){ return rM.getXOffset(); }
-    public float getYOffset(){ return rM.getYOffset(); }
+    public float getXOffset(){ return god.getXOffset(); }
+    public float getYOffset(){ return god.getYOffset(); }
     public Room getCurrentRoom() {
-        return rM.getCurrentRoom();
+        return god.getCurrentRoom();
     }
     public Texture getTexture(String name){return data.get(name);}
-    public ArrayList<Entity> getEntities() {
-        return eM.getEntities();
-    }
     public Player getPlayer(){
-        return eM.getPlayer();
+        return god.getPlayer();
     }
     public ArrayList<Rectangle> getRectangles(){
-        return rM.getCurrentRoom().getBounds();
+        return god.getCurrentRoom().getBounds();
     }
 }

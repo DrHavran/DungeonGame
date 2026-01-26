@@ -44,7 +44,7 @@ public class Fox extends Entity {
             changeAnimation("chomp");
         }
 
-        if(eM.getPlayer().getSprite().getX()+eM.getPlayer().getSprite().getWidth()/2 > sprite.getX() + sprite.getWidth()/2){
+        if(god.getPlayer().getSprite().getX() + god.getPlayer().getSprite().getWidth()/2 > sprite.getX() + sprite.getWidth()/2){
             animationRotation = "right";
         }else{
             animationRotation = "left";

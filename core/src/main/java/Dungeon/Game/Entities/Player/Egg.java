@@ -17,7 +17,7 @@ public class Egg extends Entity {
         type = "egg";
         changeAnimation("shoot");
 
-        switch (eM.getPlayer().getRotation()){
+        switch (god.getPlayer().getRotation()){
             case "right":
                 vector[0] = 1;
                 break;
@@ -34,12 +34,12 @@ public class Egg extends Entity {
 
         sprite.setSize(15*size,16*size);
 
-        Sprite player = eM.getPlayer().getSprite();
+        Sprite player = god.getPlayer().getSprite();
         sprite.setPosition(
             player.getX() + player.getWidth()/2 - this.sprite.getWidth()/2,
             player.getY() + player.getHeight()/2 - this.sprite.getHeight()/2);
 
-        eM.addEntity(this);
+        god.addEntity(this);
     }
 
     @Override
@@ -47,8 +47,8 @@ public class Egg extends Entity {
         offset();
         sprite.setX(sprite.getX()  + vector[0]*speed);
         sprite.setY(sprite.getY()  + vector[1]*speed);
-        if(!rM.checkBounds(sprite.getX(), sprite.getY())){
-            eM.removeEntity(this);
+        if(!god.checkBounds(sprite.getX(), sprite.getY())){
+            god.removeEntity(this);
         }
     }
 

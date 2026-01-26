@@ -1,43 +1,58 @@
-package Dungeon.Game.Room;
+package Dungeon.Game;
 
-import Dungeon.Game.Entities.EntityManager;
-import Dungeon.Game.InputManager;
-import Dungeon.Game.Settings;
+import Dungeon.Game.Entities.Entity;
+import Dungeon.Game.Entities.Player.Player;
+import Dungeon.Game.Room.Room;
+import Dungeon.Game.Room.RoomGenerator;
+import Dungeon.Game.Room.Tile;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 
-public class RoomManager {
-    private static RoomManager instance;
-    public static RoomManager getInstance() {
-        if (instance == null) instance = new RoomManager();
+public class GodManager {
+    private static GodManager instance;
+    public static GodManager getInstance() {
+        if (instance == null) instance = new GodManager();
         return instance;
     }
 
-    private final EntityManager eM;
     private final InputManager iM;
-    private final RoomGenerator rG;
 
+    private final RoomGenerator rG; //room shit
     private float xOffset;
     private float yOffset;
-
     private Room[][] rooms;
     private int[] cords;
     private Room currentRoom;
 
-    public RoomManager() {
+    private final ArrayList<Entity> toAdd; //entity shit
+    private final ArrayList<Entity> toRemove;
+
+    private Player player;
+
+    public GodManager() {
         this.rG = new RoomGenerator();
-        this.eM = EntityManager.getInstance();
         this.iM = InputManager.getInstance();
+        this.toAdd = new ArrayList<>();
+        this.toRemove = new ArrayList<>();
 
         generateFloor();
+    }
+
+    public void update(){
+        for(Entity entity : currentRoom.getEntities()){
+            entity.update();
+        }
+        player.update();
+
+        addEntities();
+        removeEntities();
     }
 
     public void generateFloor(){
         rooms = new Room[8][7];
         cords = new int[]{0, 3};
-        currentRoom = rooms[3][0];
 
         int[][] floor = new int[][]{
             {0, 0, 0, 0, 1, 0, 0},
@@ -68,6 +83,7 @@ public class RoomManager {
                 }
             }
         }
+        currentRoom = rooms[cords[1]][cords[0]];
     }
 
     public boolean checkBounds(float x, float y){
@@ -83,31 +99,31 @@ public class RoomManager {
     }
 
     public void checkMove(){
-        Sprite player = eM.getPlayer().getSprite();
+        Sprite playerSprite = player.getSprite();
 
         if (iM.isW() && !iM.isS()) {
-            if(Settings.noBounds || checkBounds(player.getX(), player.getY() + Settings.speed) && checkBounds(player.getX() + player.getWidth(), player.getY() + Settings.speed)){
+            if(Settings.noBounds || checkBounds(playerSprite.getX(), playerSprite.getY() + Settings.speed) && checkBounds(playerSprite.getX() + playerSprite.getWidth(), playerSprite.getY() + Settings.speed)){
                 yOffset = (yOffset + Settings.speed);
             }else{
                 checkDoor();
             }
         }
         if (iM.isS() && !iM.isW()) {
-            if(Settings.noBounds || checkBounds(player.getX(), player.getY() - Settings.speed) && checkBounds(player.getX() + player.getWidth(), player.getY() - Settings.speed)){
+            if(Settings.noBounds || checkBounds(playerSprite.getX(), playerSprite.getY() - Settings.speed) && checkBounds(playerSprite.getX() + playerSprite.getWidth(), playerSprite.getY() - Settings.speed)){
                 yOffset = (yOffset - Settings.speed);
             }else{
                 checkDoor();
             }
         }
         if (iM.isA() && !iM.isD()) {
-            if(Settings.noBounds || checkBounds(player.getX() - Settings.speed, player.getY())){
+            if(Settings.noBounds || checkBounds(playerSprite.getX() - Settings.speed, playerSprite.getY())){
                 xOffset = (xOffset - Settings.speed);
             }else{
                 checkDoor();
             }
         }
         if (iM.isD() && !iM.isA()) {
-            if(Settings.noBounds || checkBounds(player.getX() + player.getWidth() + Settings.speed, player.getY())){
+            if(Settings.noBounds || checkBounds(playerSprite.getX() + playerSprite.getWidth() + Settings.speed, playerSprite.getY())){
                 xOffset = (xOffset + Settings.speed);
             }else{
                 checkDoor();
@@ -116,7 +132,7 @@ public class RoomManager {
     }
 
     private void checkDoor(){
-        Sprite player = eM.getPlayer().getSprite();
+        Sprite playerSprite = player.getSprite();
         for(Tile door : currentRoom.getDoors() ){
             Sprite sprite = door.getSprite();
             float lastX = sprite.getX();
@@ -125,16 +141,16 @@ public class RoomManager {
             sprite.setX(sprite.getX() - xOffset);
             sprite.setY(sprite.getY() - yOffset);
 
-            if(player.getBoundingRectangle().overlaps(door.getSprite().getBoundingRectangle())){
+            if(playerSprite.getBoundingRectangle().overlaps(door.getSprite().getBoundingRectangle())){
                 if (door.checkWall("left")) {
                     cords[0]--;
                     currentRoom = rooms[cords[1]][cords[0]];
-                    xOffset += currentRoom.getWidth() * Settings.roomScale * 32 - player.getWidth();
+                    xOffset += currentRoom.getWidth() * Settings.roomScale * 32 - playerSprite.getWidth();
                 }
                 if (door.checkWall("right")) {
                     cords[0]++;
                     currentRoom = rooms[cords[1]][cords[0]];
-                    xOffset -= currentRoom.getWidth() * Settings.roomScale * 32 - player.getWidth();
+                    xOffset -= currentRoom.getWidth() * Settings.roomScale * 32 - playerSprite.getWidth();
                 }
                 if (door.checkWall("up")) {
                     cords[1]--;
@@ -147,7 +163,6 @@ public class RoomManager {
                     yOffset += currentRoom.getHeight() * Settings.roomScale * 32;
                 }
 
-                eM.getEntities().clear();
                 sprite.setX(lastX);
                 sprite.setY(lastY);
                 break;
@@ -157,13 +172,36 @@ public class RoomManager {
         }
     }
 
-    public Room getCurrentRoom() {
-        return currentRoom;
+    private void addEntities(){
+        currentRoom.getEntities().addAll(toAdd);
+        toAdd.clear();
     }
+    private void removeEntities(){
+        for(Entity entity : toRemove){
+            currentRoom.getEntities().remove(entity);
+        }
+        toRemove.clear();
+    }
+
     public float getXOffset() {
         return xOffset;
     }
     public float getYOffset() {
         return yOffset;
+    }
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
+    public void addEntity(Entity entity){
+        toAdd.add(entity);
+    }
+    public void removeEntity(Entity entity){
+        toRemove.add(entity);
+    }
+    public void newPlayer(){
+        this.player = new Player();
+    }
+    public Player getPlayer(){
+        return player;
     }
 }

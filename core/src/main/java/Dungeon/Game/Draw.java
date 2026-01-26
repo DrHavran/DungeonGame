@@ -26,15 +26,15 @@ public class Draw {
     public void update(){
         logic.update();
 
-        drawRoom(logic.getCurrentRoom());
+        draw(logic.getCurrentRoom());
 
         if(Settings.showBounds){
             for(Rectangle rect : logic.getRectangles()){ //draw bounds of the room
-                drawBound(rect);
+                draw(rect);
             }
         }
 
-        for(Entity entity : logic.getEntities()){ //draw entities
+        for(Entity entity : logic.getCurrentRoom().getEntities()){ //draw entities
             if(Settings.showRadius){
                 drawRadius(entity);
             }
@@ -53,7 +53,7 @@ public class Draw {
         batch.begin();
     }
 
-    private void drawBound(Rectangle rect){
+    private void draw(Rectangle rect){
         batch.end();
         sR.begin(ShapeRenderer.ShapeType.Filled);
         sR.setColor(Color.RED);
@@ -86,7 +86,7 @@ public class Draw {
         sprite.draw(batch);
     }
 
-    private void drawRoom(Room room){
+    private void draw(Room room){
         for(Tile tile : room.getTiles()){
             if(tile.getType() == TileType.EMPTY){
                 continue;

@@ -24,6 +24,8 @@ public class RoomGenerator {
             room[y/2][x-1] = 2;
         }
 
+        room[y/2][x/2] = 0;
+
         return room;
     }
 }

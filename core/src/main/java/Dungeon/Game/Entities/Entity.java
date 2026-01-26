@@ -1,7 +1,7 @@
 package Dungeon.Game.Entities;
 
+import Dungeon.Game.GodManager;
 import Dungeon.Game.InputManager;
-import Dungeon.Game.Room.RoomManager;
 import Dungeon.Game.Settings;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
@@ -14,9 +14,8 @@ public abstract class Entity {
     protected int animationSpeedCount; //counts when to switch the frame
     protected int animationSpeed; //in how many updates does frame change
 
-    protected final EntityManager eM;
     protected final InputManager iM;
-    protected final RoomManager rM;
+    protected final GodManager god;
     protected HashMap<String, HashMap<String, Integer>> animations;
 
     protected Sprite sprite;
@@ -35,9 +34,8 @@ public abstract class Entity {
     public Entity(){
         this.sprite = new Sprite();
         this.animations = new HashMap<>();
-        this.eM = EntityManager.getInstance();
         this.iM = InputManager.getInstance();
-        this.rM = RoomManager.getInstance();
+        this.god = GodManager.getInstance();
 
         this.speed = 0;
         this.frame = 0;
@@ -74,67 +72,66 @@ public abstract class Entity {
     }
 
     protected void offset(){
-        Sprite player = eM.getPlayer().getSprite();
+        Sprite player = god.getPlayer().getSprite();
 
         if (iM.isW() && !iM.isS()) {
-            if(Settings.noBounds || rM.checkBounds(player.getX(), player.getY() + Settings.speed) && rM.checkBounds(player.getX() + player.getWidth(), player.getY() + Settings.speed)){
+            if(Settings.noBounds || god.checkBounds(player.getX(), player.getY() + Settings.speed) && god.checkBounds(player.getX() + player.getWidth(), player.getY() + Settings.speed)){
                 sprite.setY(sprite.getY() - Settings.speed);
             }
         }
         if (iM.isS() && !iM.isW()) {
-            if(Settings.noBounds || rM.checkBounds(player.getX(), player.getY() - Settings.speed) && rM.checkBounds(player.getX() + player.getWidth(), player.getY() - Settings.speed)){
+            if(Settings.noBounds || god.checkBounds(player.getX(), player.getY() - Settings.speed) && god.checkBounds(player.getX() + player.getWidth(), player.getY() - Settings.speed)){
                 sprite.setY(sprite.getY() + Settings.speed);
             }
         }
         if (iM.isA() && !iM.isD()) {
-            if(Settings.noBounds || rM.checkBounds(player.getX() - Settings.speed, player.getY())){
+            if(Settings.noBounds || god.checkBounds(player.getX() - Settings.speed, player.getY())){
                 sprite.setX(sprite.getX() + Settings.speed);
             }
         }
         if (iM.isD() && !iM.isA()) {
-            if(Settings.noBounds || rM.checkBounds(player.getX() + player.getWidth() + Settings.speed, player.getY())){
+            if(Settings.noBounds || god.checkBounds(player.getX() + player.getWidth() + Settings.speed, player.getY())){
                 sprite.setX(sprite.getX() - Settings.speed);
             }
         }
     }
 
     protected boolean checkRange(){
-        return eM.getPlayer().getSprite().getX() < sprite.getX() + detectRadius + sprite.getWidth()/2 &&
-            eM.getPlayer().getSprite().getX() + eM.getPlayer().getSprite().getWidth() > sprite.getX() - detectRadius + sprite.getWidth()/2 &&
-            eM.getPlayer().getSprite().getY() < sprite.getY() + detectRadius + sprite.getHeight()/2 &&
-            eM.getPlayer().getSprite().getY() + eM.getPlayer().getSprite().getHeight() > sprite.getY() - detectRadius + sprite.getHeight()/2;
+        return god.getPlayer().getSprite().getX() < sprite.getX() + detectRadius + sprite.getWidth()/2 &&
+            god.getPlayer().getSprite().getX() + god.getPlayer().getSprite().getWidth() > sprite.getX() - detectRadius + sprite.getWidth()/2 &&
+            god.getPlayer().getSprite().getY() < sprite.getY() + detectRadius + sprite.getHeight()/2 &&
+            god.getPlayer().getSprite().getY() + god.getPlayer().getSprite().getHeight() > sprite.getY() - detectRadius + sprite.getHeight()/2;
     }
 
     protected boolean touchingPlayer(){
-        return eM.getPlayer().getSprite().getBoundingRectangle().overlaps(sprite.getBoundingRectangle());
+        return god.getPlayer().getSprite().getBoundingRectangle().overlaps(sprite.getBoundingRectangle());
     }
 
     protected void moveToPlayer(){
-        double x = (eM.getPlayer().getSprite().getX() + eM.getPlayer().getSprite().getWidth()/2) - (sprite.getX() + sprite.getWidth()/2);
-        double y = (eM.getPlayer().getSprite().getY() + eM.getPlayer().getSprite().getHeight()/2) - (sprite.getY()  + sprite.getHeight()/2);
+        double x = (god.getPlayer().getSprite().getX() + god.getPlayer().getSprite().getWidth()/2) - (sprite.getX() + sprite.getWidth()/2);
+        double y = (god.getPlayer().getSprite().getY() + god.getPlayer().getSprite().getHeight()/2) - (sprite.getY()  + sprite.getHeight()/2);
         double length = Math.sqrt(x * x + y * y);
 
         float normalizedX = (float) (x / length * speed);
         float normalizedY = (float) (y / length * speed);
 
-        System.out.println(normalizedX + " " + normalizedY);
-
         if(normalizedX > 0){
-            if(rM.checkBounds(sprite.getX() + sprite.getWidth() + normalizedX, sprite.getY())){
+            if(
+                god.checkBounds(sprite.getX() + sprite.getWidth() + normalizedX, sprite.getY()) && god.checkBounds(sprite.getX() + sprite.getWidth() + normalizedX, sprite.getY() + sprite.getHeight())){
                 sprite.setX(sprite.getX() + normalizedX);
             }
         }else{
-            if(rM.checkBounds(sprite.getX() + normalizedX, sprite.getY())){
+            if(god.checkBounds(sprite.getX() + normalizedX, sprite.getY()) && god.checkBounds(sprite.getX() + normalizedX, sprite.getY() + sprite.getHeight())){
                 sprite.setX(sprite.getX() + normalizedX);
             }
         }
 
         if(normalizedY > 0){
-            if(rM.checkBounds(sprite.getX(), sprite.getY() + sprite.getHeight() + normalizedY)){
+            if(god.checkBounds(sprite.getX(), sprite.getY() + sprite.getHeight() + normalizedY) && god.checkBounds(sprite.getX() + sprite.getWidth(), sprite.getY() + sprite.getHeight() + normalizedY)){
                 sprite.setY(sprite.getY() + normalizedY);
             }
         }else{
-            if(rM.checkBounds(sprite.getX(), sprite.getY() + normalizedY)){
+            if(god.checkBounds(sprite.getX(), sprite.getY() + normalizedY) && god.checkBounds(sprite.getX() + sprite.getWidth(), sprite.getY() + normalizedY) ){
                 sprite.setY(sprite.getY() + normalizedY);
             }
         }
