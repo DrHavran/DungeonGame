@@ -63,7 +63,9 @@ public class Tile {
     }
     public void setType(TileType type){
         this.type = type;
-        sprite.setTexture(data.get(type.toString().toLowerCase()));
+    }
+    public void setStatus(String stat){
+        sprite.setTexture(data.get(type.toString().toLowerCase() + stat));
     }
     public TileType getType() {
         return type;

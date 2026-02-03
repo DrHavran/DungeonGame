@@ -46,16 +46,11 @@ public class GodManager {
             entity.update();
         }
         for(Tile tile : currentRoom.getTiles()){
-            if(tile.getType() == TileType.EMPTY || tile.getType() == TileType.NORMAL){
-                continue;
-            }
-            if(!currentRoom.getEntities().isEmpty()){
-                if(tile.getType() == TileType.DOOR_OPEN){
-                    tile.setType(TileType.DOOR_CLOSED);
-                }
-            }else{
-                if(tile.getType() == TileType.DOOR_CLOSED){
-                    tile.setType(TileType.DOOR_OPEN);
+            if(tile.getType() == TileType.DOOR){
+                if(!currentRoom.getEntities().isEmpty()){
+                    tile.setStatus("_closed");
+                }else{
+                    tile.setStatus("_open");
                 }
             }
         }
@@ -149,9 +144,10 @@ public class GodManager {
     private void checkDoor(){
         Sprite playerSprite = player.getSprite();
 
-        if(!currentRoom.getEntities().isEmpty()){
+        if(!currentRoom.getEntities().isEmpty()){ //stops the player from walking if the room is not cleared
             return;
         }
+
         for(Tile door : currentRoom.getDoors() ){
             Sprite sprite = door.getSprite();
             float lastX = sprite.getX();

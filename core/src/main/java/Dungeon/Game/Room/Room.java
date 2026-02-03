@@ -44,13 +44,16 @@ public class Room {
                         continue;
                     case 1:
                         tile.setType(TileType.NORMAL);
+                        tile.setStatus("");
                         break;
                     case 2:
-                        tile.setType(TileType.DOOR_OPEN);
+                        tile.setType(TileType.DOOR);
+                        tile.setStatus("_open");
                         doors.add(tile);
                         break;
                     case 3:
-                        tile.setType(TileType.GOLDEN_DOOR_CLOSED);
+                        tile.setType(TileType.GOLDEN_DOOR);
+                        tile.setStatus("_closed");
                         doors.add(tile);
                         break;
                 }
