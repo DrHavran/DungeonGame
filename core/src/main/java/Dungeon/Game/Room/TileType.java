@@ -3,7 +3,8 @@ package Dungeon.Game.Room;
 public enum TileType {
     EMPTY,
     NORMAL,
-    DOOR,
-    GOLDEN_DOOR,
-    GOLDEN_DOOR_OPEN
+    DOOR_OPEN,
+    DOOR_CLOSED,
+    GOLDEN_DOOR_OPEN,
+    GOLDEN_DOOR_CLOSED
 }

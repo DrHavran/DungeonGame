@@ -5,6 +5,7 @@ import Dungeon.Game.Entities.Player.Player;
 import Dungeon.Game.Room.Room;
 import Dungeon.Game.Room.RoomGenerator;
 import Dungeon.Game.Room.Tile;
+import Dungeon.Game.Room.TileType;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -44,6 +45,20 @@ public class GodManager {
         for(Entity entity : currentRoom.getEntities()){
             entity.update();
         }
+        for(Tile tile : currentRoom.getTiles()){
+            if(tile.getType() == TileType.EMPTY || tile.getType() == TileType.NORMAL){
+                continue;
+            }
+            if(!currentRoom.getEntities().isEmpty()){
+                if(tile.getType() == TileType.DOOR_OPEN){
+                    tile.setType(TileType.DOOR_CLOSED);
+                }
+            }else{
+                if(tile.getType() == TileType.DOOR_CLOSED){
+                    tile.setType(TileType.DOOR_OPEN);
+                }
+            }
+        }
         player.update();
 
         addEntities();
@@ -57,7 +72,7 @@ public class GodManager {
         int[][] floor = new int[][]{
             {0, 0, 0, 0, 1, 0, 0},
             {0, 0, 1, 1, 1, 0, 0},
-            {0, 1, 0, 1, 1, 1, 1},
+            {1, 1, 0, 1, 1, 1, 1},
             {1, 1, 1, 1, 0, 1, 0},
             {0, 1, 0, 0, 0, 1, 1},
             {0, 1, 0, 0, 1, 1, 0},
@@ -133,6 +148,10 @@ public class GodManager {
 
     private void checkDoor(){
         Sprite playerSprite = player.getSprite();
+
+        if(!currentRoom.getEntities().isEmpty()){
+            return;
+        }
         for(Tile door : currentRoom.getDoors() ){
             Sprite sprite = door.getSprite();
             float lastX = sprite.getX();

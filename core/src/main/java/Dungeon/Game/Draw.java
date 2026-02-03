@@ -86,7 +86,7 @@ public class Draw {
         sprite.draw(batch);
     }
 
-    private void draw(Room room){
+    private void draw(Room room) {
         for(Tile tile : room.getTiles()){
             if(tile.getType() == TileType.EMPTY){
                 continue;
