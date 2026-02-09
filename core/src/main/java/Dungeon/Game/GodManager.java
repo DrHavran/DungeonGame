@@ -1,11 +1,9 @@
 package Dungeon.Game;
 
 import Dungeon.Game.Entities.Entity;
+import Dungeon.Game.Entities.Player.Egg;
 import Dungeon.Game.Entities.Player.Player;
-import Dungeon.Game.Room.Room;
-import Dungeon.Game.Room.RoomGenerator;
-import Dungeon.Game.Room.Tile;
-import Dungeon.Game.Room.TileType;
+import Dungeon.Game.Room.*;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -19,8 +17,10 @@ public class GodManager {
     }
 
     private final InputManager iM;
+    private final Minimap minimap;
 
     private final RoomGenerator rG; //room shit
+    private final FloorGenerator fG; //room shit
     private float xOffset;
     private float yOffset;
     private Room[][] rooms;
@@ -34,9 +34,11 @@ public class GodManager {
 
     public GodManager() {
         this.rG = new RoomGenerator();
+        this.fG = new FloorGenerator();
         this.iM = InputManager.getInstance();
         this.toAdd = new ArrayList<>();
         this.toRemove = new ArrayList<>();
+        this.minimap = new Minimap();
 
         generateFloor();
     }
@@ -45,15 +47,6 @@ public class GodManager {
         for(Entity entity : currentRoom.getEntities()){
             entity.update();
         }
-        for(Tile tile : currentRoom.getTiles()){
-            if(tile.getType() == TileType.DOOR){
-                if(!currentRoom.getEntities().isEmpty()){
-                    tile.setStatus("_closed");
-                }else{
-                    tile.setStatus("_open");
-                }
-            }
-        }
         player.update();
 
         addEntities();
@@ -61,19 +54,14 @@ public class GodManager {
     }
 
     public void generateFloor(){
-        rooms = new Room[8][7];
-        cords = new int[]{0, 3};
+        rooms = new Room[11][11];
+        cords = new int[]{5, 5};
 
-        int[][] floor = new int[][]{
-            {0, 0, 0, 0, 1, 0, 0},
-            {0, 0, 1, 1, 1, 0, 0},
-            {1, 1, 0, 1, 1, 1, 1},
-            {1, 1, 1, 1, 0, 1, 0},
-            {0, 1, 0, 0, 0, 1, 1},
-            {0, 1, 0, 0, 1, 1, 0},
-            {0, 0, 0, 0, 0, 1, 0},
-            {0, 0, 0, 0, 0, 1, 1}
-        };
+        fG.generateFloor();
+        int[][] floor = fG.getFloor();
+        minimap.reset();
+        minimap.setMap(floor);
+        minimap.setStatus(5, 5, 2);
 
         for (int y = 0; y < floor.length; y++) {
             for (int x = 0; x < floor[y].length; x++) {
@@ -144,8 +132,10 @@ public class GodManager {
     private void checkDoor(){
         Sprite playerSprite = player.getSprite();
 
-        if(!currentRoom.getEntities().isEmpty()){ //stops the player from walking if the room is not cleared
-            return;
+        for(Entity entity : currentRoom.getEntities()){
+            if(!(entity instanceof Egg)){
+                return;
+            }
         }
 
         for(Tile door : currentRoom.getDoors() ){
@@ -161,21 +151,30 @@ public class GodManager {
                     cords[0]--;
                     currentRoom = rooms[cords[1]][cords[0]];
                     xOffset += currentRoom.getWidth() * Settings.roomScale * 32 - playerSprite.getWidth();
+
+                    minimap.setStatus(cords[1], cords[0], 2);
+                    checkDoors();
                 }
                 if (door.checkWall("right")) {
                     cords[0]++;
                     currentRoom = rooms[cords[1]][cords[0]];
                     xOffset -= currentRoom.getWidth() * Settings.roomScale * 32 - playerSprite.getWidth();
+                    minimap.setStatus(cords[1], cords[0], 2);
+                    checkDoors();
                 }
                 if (door.checkWall("up")) {
                     cords[1]--;
                     currentRoom = rooms[cords[1]][cords[0]];
                     yOffset -= currentRoom.getHeight() * Settings.roomScale * 32;
+                    minimap.setStatus(cords[1], cords[0], 2);
+                    checkDoors();
                 }
                 if (door.checkWall("down")) {
                     cords[1]++;
                     currentRoom = rooms[cords[1]][cords[0]];
                     yOffset += currentRoom.getHeight() * Settings.roomScale * 32;
+                    minimap.setStatus(cords[1], cords[0], 2);
+                    checkDoors();
                 }
 
                 sprite.setX(lastX);
@@ -187,13 +186,33 @@ public class GodManager {
         }
     }
 
+    public void checkDoors(){
+        for(Tile tile : currentRoom.getTiles()){
+            if(tile.getType() == TileType.DOOR){
+                for(Entity entity : currentRoom.getEntities()){
+                    if(!(entity instanceof Egg)){
+                        tile.setStatus("_closed");
+                        return;
+                    }
+                }
+                tile.setStatus("_open");
+            }
+        }
+    }
+
     private void addEntities(){
         currentRoom.getEntities().addAll(toAdd);
+        if(!toAdd.isEmpty()){
+            checkDoors();
+        }
         toAdd.clear();
     }
     private void removeEntities(){
         for(Entity entity : toRemove){
             currentRoom.getEntities().remove(entity);
+        }
+        if(!toRemove.isEmpty()){
+            checkDoors();
         }
         toRemove.clear();
     }
@@ -203,6 +222,12 @@ public class GodManager {
     }
     public float getYOffset() {
         return yOffset;
+    }
+    public int[] getCords(){
+        return cords;
+    }
+    public int[][] getMinimap(){
+        return minimap.getStatus();
     }
     public Room getCurrentRoom() {
         return currentRoom;

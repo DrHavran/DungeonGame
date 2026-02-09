@@ -20,7 +20,7 @@ public class Logic {
         this.iM = InputManager.getInstance();
 
         god.newPlayer();
-        god.addEntity(new Fox());
+        //god.addEntity(new Fox());
     }
 
     public void update(){
@@ -29,6 +29,12 @@ public class Logic {
         god.checkMove();
     }
 
+    public int[][] getMinimap(){
+        return god.getMinimap();
+    }
+    public int[] getCords(){
+        return god.getCords();
+    }
     public float getXOffset(){ return god.getXOffset(); }
     public float getYOffset(){ return god.getYOffset(); }
     public Room getCurrentRoom() {

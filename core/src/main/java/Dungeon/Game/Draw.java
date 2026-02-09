@@ -42,6 +42,35 @@ public class Draw {
         }
 
         draw(logic.getPlayer());
+
+        drawMinimap();
+    }
+
+    private void drawMinimap(){
+        int[][] minimap = logic.getMinimap();
+
+        batch.end();
+        sR.begin(ShapeRenderer.ShapeType.Line);
+        sR.setColor(Color.BLACK);
+        sR.rect(Settings.width-165, Settings.height-165, 165, 165);
+        sR.end();
+        sR.begin(ShapeRenderer.ShapeType.Filled);
+        for(int y = 0; y < minimap.length; y++){
+            for(int x = 0; x < minimap[y].length; x++){
+                if(minimap[y][x] == 0){
+                    continue;
+                }else if(logic.getMinimap()[y][x] == 1){
+                    sR.setColor(Color.DARK_GRAY);
+                }else if(logic.getMinimap()[y][x] == 2){
+                    sR.setColor(Color.TAN);
+                }
+                sR.rect(Settings.width - 165 + x*15, Settings.height - 165 + (10 - y) * 15, 15, 15);
+            }
+        }
+        sR.end();
+        batch.begin();
+        int[] cords = logic.getCords();
+        batch.draw(logic.getTexture("Icon"), Settings.width - 164 + cords[0]*15, Settings.height - 164 + (10 - cords[1]) * 15, 13, 13);
     }
 
     private void drawRadius(Entity entity){

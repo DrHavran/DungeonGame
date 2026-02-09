@@ -22,7 +22,7 @@ public class Lwjgl3Launcher {
         configuration.useVsync(true);
         configuration.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate + 1);
         configuration.setWindowedMode(Settings.width, Settings.height);
-        configuration.setWindowIcon("Icon.png");
+        configuration.setWindowIcon("sprites/player/Icon.png");
         return configuration;
     }
 }
