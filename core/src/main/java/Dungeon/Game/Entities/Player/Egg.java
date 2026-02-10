@@ -7,9 +7,10 @@ public class Egg extends Entity {
 
     private final int[] vector = {0, 0};
 
-    public Egg() {
+    public Egg(int dmg) {
         super();
 
+        this.damage = dmg;
         size = 1.5f;
         speed = 6;
         type = "egg";
@@ -57,8 +58,8 @@ public class Egg extends Entity {
                 continue;
             }
             if(sprite.getBoundingRectangle().overlaps(entity.getSprite().getBoundingRectangle())){
+                entity.damage(damage);
                 god.removeEntity(this);
-                god.removeEntity(entity);
             }
         }
     }

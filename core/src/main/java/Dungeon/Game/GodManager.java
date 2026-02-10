@@ -1,5 +1,6 @@
 package Dungeon.Game;
 
+import Dungeon.Game.Draw.Minimap;
 import Dungeon.Game.Entities.Entity;
 import Dungeon.Game.Entities.Player.Egg;
 import Dungeon.Game.Entities.Player.Player;

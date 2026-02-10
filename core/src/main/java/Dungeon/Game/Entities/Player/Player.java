@@ -10,14 +10,17 @@ public class Player extends Entity {
 
     private final int shootDelay;
     private int shootCount;
+    private int maxHealth;
 
     public Player() {
         super();
 
         shootDelay = 30;
         shootCount = 0;
-        health = 100;
+        maxHealth = 6;
+        health = 3;
         size = 3;
+        damage = 25;
 
         loadAnimations();
         type = "player";
@@ -72,7 +75,7 @@ public class Player extends Entity {
             shootCount--;
         }
         if (iM.isSPACE() && shootCount == 0) {
-            new Egg();
+            new Egg(damage);
             shootCount = shootDelay;
         }
     }
@@ -89,5 +92,12 @@ public class Player extends Entity {
 
         animations.put("walk", walk);
         animations.put("idle", idle);
+    }
+
+    public int getHP(){
+        return health;
+    }
+    public int getMaxHP(){
+        return maxHealth;
     }
 }

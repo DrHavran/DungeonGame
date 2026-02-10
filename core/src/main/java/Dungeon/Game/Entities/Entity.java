@@ -27,6 +27,7 @@ public abstract class Entity {
 
     protected int speed;
     protected int health;
+    protected int damage;
     protected int detectRadius;
     protected boolean isAttacking;
 
@@ -147,6 +148,12 @@ public abstract class Entity {
     }
     public String getAnimation() {
         return animation;
+    }
+    public void damage(int damage){
+        health = health - damage;
+        if(health <= 0){
+            god.removeEntity(this);
+        }
     }
     public int getDetectRadius() {
         return detectRadius;

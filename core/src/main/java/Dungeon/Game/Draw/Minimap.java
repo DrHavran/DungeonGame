@@ -1,4 +1,4 @@
-package Dungeon.Game;
+package Dungeon.Game.Draw;
 
 public class Minimap {
     private int[][] map;

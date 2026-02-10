@@ -20,7 +20,7 @@ public class Logic {
         this.iM = InputManager.getInstance();
 
         god.newPlayer();
-        //god.addEntity(new Fox());
+        god.addEntity(new Fox());
     }
 
     public void update(){
@@ -31,6 +31,12 @@ public class Logic {
 
     public int[][] getMinimap(){
         return god.getMinimap();
+    }
+    public int getHP(){
+        return god.getPlayer().getHP();
+    };
+    public int getMaxHP(){
+        return god.getPlayer().getMaxHP();
     }
     public int[] getCords(){
         return god.getCords();

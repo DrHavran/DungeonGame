@@ -1,9 +1,11 @@
-package Dungeon.Game;
+package Dungeon.Game.Draw;
 
 import Dungeon.Game.Entities.Entity;
+import Dungeon.Game.Logic;
 import Dungeon.Game.Room.Room;
 import Dungeon.Game.Room.Tile;
 import Dungeon.Game.Room.TileType;
+import Dungeon.Game.Settings;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -44,8 +46,30 @@ public class Draw {
         draw(logic.getPlayer());
 
         drawMinimap();
+        drawHP();
     }
 
+    private void drawHP(){
+        int hp = logic.getHP();
+        int maxHp = logic.getMaxHP();
+
+        for(int i = 0; i < maxHp/2; i++){
+            batch.draw(logic.getTexture("emptyHeart"), 10 + i*40, Settings.height - 50, 40, 40);
+        }
+
+        if(hp % 2 == 0){
+            for(int i = 0; i < hp/2; i++){
+                batch.draw(logic.getTexture("fullHeart"), 10 + i*40, Settings.height - 50, 40, 40);
+            }
+        }else{
+            for(int i = 0; i < (hp-1)/2; i++){
+                batch.draw(logic.getTexture("fullHeart"), 10 + i*40, Settings.height - 50, 40, 40);
+                if(i + 1 == (hp-1)/2){
+                    batch.draw(logic.getTexture("halfHeart"), 10 + (1+i)*40, Settings.height - 50, 40, 40);
+                }
+            }
+        }
+    }
     private void drawMinimap(){
         int[][] minimap = logic.getMinimap();
 
