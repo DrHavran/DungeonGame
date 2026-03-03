@@ -62,6 +62,10 @@ public class Draw {
                 batch.draw(logic.getTexture("fullHeart"), 10 + i*40, Settings.height - 50, 40, 40);
             }
         }else{
+            if(hp == 1){
+                batch.draw(logic.getTexture("halfHeart"), 10, Settings.height - 50, 40, 40);
+                return;
+            }
             for(int i = 0; i < (hp-1)/2; i++){
                 batch.draw(logic.getTexture("fullHeart"), 10 + i*40, Settings.height - 50, 40, 40);
                 if(i + 1 == (hp-1)/2){

@@ -18,8 +18,8 @@ public class Player extends Entity {
 
         shootDelay = 30;
         shootCount = 0;
-        maxHealth = 6;
-        health = 3;
+        maxHealth = 10;
+        health = 1;
         size = 3;
         damage = 25;
 
