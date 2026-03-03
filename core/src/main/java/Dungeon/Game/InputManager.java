@@ -16,12 +16,22 @@ public class InputManager {
     private boolean D;
     private boolean SPACE;
 
+    private boolean UP;
+    private boolean DOWN;
+    private boolean LEFT;
+    private boolean RIGHT;
+
     public void update() {
-        W = Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP);
-        S = Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN);
-        A = Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT);
-        D = Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT);
+        W = Gdx.input.isKeyPressed(Input.Keys.W);
+        S = Gdx.input.isKeyPressed(Input.Keys.S);
+        A = Gdx.input.isKeyPressed(Input.Keys.A);
+        D = Gdx.input.isKeyPressed(Input.Keys.D);
         SPACE = Gdx.input.isKeyPressed(Input.Keys.SPACE);
+
+        UP = Gdx.input.isKeyPressed(Input.Keys.UP);
+        DOWN = Gdx.input.isKeyPressed(Input.Keys.DOWN);
+        LEFT = Gdx.input.isKeyPressed(Input.Keys.LEFT);
+        RIGHT = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
     }
 
     public boolean isW() {
@@ -36,7 +46,9 @@ public class InputManager {
     public boolean isD() {
         return D;
     }
-    public boolean isSPACE() {
-        return SPACE;
-    }
+
+    public boolean isUP() {return UP;}
+    public boolean isDOWN() {return DOWN;}
+    public boolean isLEFT() {return LEFT;}
+    public boolean isRIGHT() {return RIGHT;}
 }

@@ -11,6 +11,7 @@ public class Player extends Entity {
     private final int shootDelay;
     private int shootCount;
     private int maxHealth;
+    private int shootDirection = 2;
 
     public Player() {
         super();
@@ -71,11 +72,29 @@ public class Player extends Entity {
     }
 
     private void checkShoot(){
+
         if(shootCount > 0){
             shootCount--;
         }
-        if (iM.isSPACE() && shootCount == 0) {
-            new Egg(damage);
+
+        if (iM.isUP() && !iM.isDOWN() && shootCount == 0){
+            shootDirection = 1;
+            new Egg(damage, shootDirection);
+            shootCount = shootDelay;
+        }
+        if (iM.isRIGHT() && !iM.isLEFT() && shootCount == 0){
+            shootDirection = 2;
+            new Egg(damage, shootDirection);
+            shootCount = shootDelay;
+        }
+        if (iM.isDOWN() && !iM.isUP() && shootCount == 0){
+            shootDirection = 3;
+            new Egg(damage, shootDirection);
+            shootCount = shootDelay;
+        }
+        if (iM.isLEFT() && !iM.isRIGHT() && shootCount == 0){
+            shootDirection = 4;
+            new Egg(damage, shootDirection);
             shootCount = shootDelay;
         }
     }

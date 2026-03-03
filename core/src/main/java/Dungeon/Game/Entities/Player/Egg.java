@@ -7,7 +7,7 @@ public class Egg extends Entity {
 
     private final int[] vector = {0, 0};
 
-    public Egg(int dmg) {
+    public Egg(int dmg, int shootDirection) {
         super();
 
         this.damage = dmg;
@@ -16,17 +16,17 @@ public class Egg extends Entity {
         type = "egg";
         changeAnimation("shoot");
 
-        switch (god.getPlayer().getRotation()){
-            case "right":
+        switch (shootDirection){
+            case 2:
                 vector[0] = 1;
                 break;
-            case "left":
+            case 4:
                 vector[0] = -1;
                 break;
-            case "up":
+            case 1:
                 vector[1] = 1;
                 break;
-            case "down":
+            case 3:
                 vector[1] = -1;
                 break;
         }
