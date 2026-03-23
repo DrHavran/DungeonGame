@@ -13,12 +13,16 @@ public class Tile {
     private final ArrayList<String> walls;
     private final int scale;
 
+    private final float x, y;
+
     public Tile(float x, float y){
         this.sprite = new Sprite();
         this.walls = new ArrayList<>();
         this.data = Data.getInstance();
         this.type = TileType.EMPTY;
         this.scale = Settings.roomScale;
+        this.x = x;
+        this.y = y;
 
         sprite.setPosition(x, y);
         sprite.setSize(32 * scale, 32 * scale);
@@ -72,5 +76,11 @@ public class Tile {
     }
     public Sprite getSprite() {
         return sprite;
+    }
+    public float getX() {
+        return x;
+    }
+    public float getY() {
+        return y;
     }
 }

@@ -10,7 +10,7 @@ public class Wolf extends Entity {
         super();
 
         health = 100;
-        size = 7;
+        size = 5;
         detectRadius = 200;
 
         loadAnimations();

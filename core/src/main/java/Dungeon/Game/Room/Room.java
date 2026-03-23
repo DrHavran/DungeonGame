@@ -1,7 +1,8 @@
 package Dungeon.Game.Room;
 
-import Dungeon.Game.Entities.Enemies.Fox;
 import Dungeon.Game.Entities.Entity;
+import Dungeon.Game.Entities.Player.Egg;
+import Dungeon.Game.GodManager;
 import Dungeon.Game.Settings;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
@@ -9,13 +10,18 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 
 public class Room {
-    private final ArrayList<Entity> entities;
     private int[][] room;
     private final ArrayList<Tile> tiles;
     private final ArrayList<Tile> doors;
     private final ArrayList<Rectangle> bounds;
 
+    private final ArrayList<Entity> toAdd; //entity shit
+    private final ArrayList<Entity> toRemove;
+    private final ArrayList<Entity> entities;
+
     public Room() {
+        this.toAdd = new ArrayList<>();
+        this.toRemove = new ArrayList<>();
         this.entities = new ArrayList<>();
         this.tiles = new ArrayList<>();
         this.bounds = new ArrayList<>();
@@ -61,7 +67,6 @@ public class Room {
             }
         }
     }
-
     private void checkWalls(Tile tile, int row, int col){
         if (row == 0 || room[row - 1][col] == 0) {
             tile.addWall("up");
@@ -76,7 +81,6 @@ public class Room {
             tile.addWall("right");
         }
     }
-
     private void group(){
         int lastX = 0;
         int lastY = Settings.height;
@@ -92,7 +96,6 @@ public class Room {
             lastX += (int) tile.getSprite().getWidth();
         }
     }
-
     private void createArea(){
         for(Tile tile : tiles){
             if(tile.getType() != TileType.EMPTY){
@@ -107,11 +110,11 @@ public class Room {
             }
         }
     }
-
     public void setRoom(int[][] room) {
         this.room = room;
         edit();
     }
+
     public ArrayList<Tile> getTiles() {
         return tiles;
     }
@@ -129,5 +132,38 @@ public class Room {
     }
     public int getWidth(){
         return room[0].length;
+    }
+
+    public void checkEntities(){
+        addEntities();
+        removeEntities();
+    }
+    private void addEntities(){
+        entities.addAll(toAdd);
+        toAdd.clear();
+    }
+    private void removeEntities(){
+        for(Entity entity : toRemove){
+            entities.remove(entity);
+        }
+        toRemove.clear();
+    }
+    public void addEntity(Entity entity){
+        if(!(entity instanceof Egg)){
+            Tile spawn = tiles.get((int)(Math.random() * tiles.size()));
+
+            while(spawn.getType() != TileType.NORMAL){
+                spawn = tiles.get((int)(Math.random() * tiles.size()));
+            }
+
+            entity.getSprite().setPosition(
+                spawn.getSprite().getX() - GodManager.getInstance().getXOffset(),
+                spawn.getSprite().getY() - GodManager.getInstance().getYOffset()
+            );
+        }
+        toAdd.add(entity);
+    }
+    public void removeEntity(Entity entity){
+        toRemove.add(entity);
     }
 }

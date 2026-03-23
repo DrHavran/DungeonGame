@@ -152,7 +152,7 @@ public abstract class Entity {
     public void damage(int damage){
         health = health - damage;
         if(health <= 0){
-            god.removeEntity(this);
+            god.getCurrentRoom().removeEntity(this);
         }
     }
     public int getDetectRadius() {

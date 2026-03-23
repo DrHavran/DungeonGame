@@ -1,6 +1,5 @@
 package Dungeon.Game;
 
-import Dungeon.Game.Entities.Enemies.Fox;
 import Dungeon.Game.Entities.Player.Player;
 import Dungeon.Game.Room.Room;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,8 +18,8 @@ public class Logic {
         this.data = Data.getInstance();
         this.iM = InputManager.getInstance();
 
+        god.generateFloor();
         god.newPlayer();
-        god.addEntity(new Fox());
     }
 
     public void update(){

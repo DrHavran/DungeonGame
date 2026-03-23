@@ -1,6 +1,9 @@
 package Dungeon.Game;
 
 import Dungeon.Game.Draw.Minimap;
+import Dungeon.Game.Entities.Enemies.Bear;
+import Dungeon.Game.Entities.Enemies.Fox;
+import Dungeon.Game.Entities.Enemies.Wolf;
 import Dungeon.Game.Entities.Entity;
 import Dungeon.Game.Entities.Player.Egg;
 import Dungeon.Game.Entities.Player.Player;
@@ -28,30 +31,23 @@ public class GodManager {
     private int[] cords;
     private Room currentRoom;
 
-    private final ArrayList<Entity> toAdd; //entity shit
-    private final ArrayList<Entity> toRemove;
-
     private Player player;
 
     public GodManager() {
         this.rG = new RoomGenerator();
         this.fG = new FloorGenerator();
         this.iM = InputManager.getInstance();
-        this.toAdd = new ArrayList<>();
-        this.toRemove = new ArrayList<>();
         this.minimap = new Minimap();
-
-        generateFloor();
     }
 
     public void update(){
+        currentRoom.checkEntities();
         for(Entity entity : currentRoom.getEntities()){
             entity.update();
         }
         player.update();
 
-        addEntities();
-        removeEntities();
+        checkDoors();
     }
 
     public void generateFloor(){
@@ -77,12 +73,30 @@ public class GodManager {
                     if (x < floor[y].length - 1 && floor[y][x + 1] == 1) adjRooms.add("right");
 
                     room.setRoom(rG.generateRoom(5, 5, adjRooms));
-
+                    addEnemies(room);
                     rooms[y][x] = room;
                 }
             }
         }
         currentRoom = rooms[cords[1]][cords[0]];
+    }
+
+    private void addEnemies(Room room){
+        int random = (int)(Math.random() * 5) + 1;
+        for(int i = 0; i < random; i++){
+            int animal = (int)(Math.random() * 3) + 1;
+            switch(animal){
+                case 1:
+                    room.addEntity(new Fox());
+                    break;
+                case 2:
+                    room.addEntity(new Wolf());
+                    break;
+                case 3:
+                    room.addEntity(new Bear());
+                    break;
+            }
+        }
     }
 
     public boolean checkBounds(float x, float y){
@@ -188,34 +202,15 @@ public class GodManager {
     }
 
     public void checkDoors(){
-        for(Tile tile : currentRoom.getTiles()){
-            if(tile.getType() == TileType.DOOR){
-                for(Entity entity : currentRoom.getEntities()){
-                    if(!(entity instanceof Egg)){
-                        tile.setStatus("_closed");
-                        return;
-                    }
+        for(Tile tile : currentRoom.getDoors()){
+            for(Entity entity : currentRoom.getEntities()){
+                if(!(entity instanceof Egg)){
+                    tile.setStatus("_closed");
+                    return;
                 }
-                tile.setStatus("_open");
             }
+            tile.setStatus("_open");
         }
-    }
-
-    private void addEntities(){
-        currentRoom.getEntities().addAll(toAdd);
-        if(!toAdd.isEmpty()){
-            checkDoors();
-        }
-        toAdd.clear();
-    }
-    private void removeEntities(){
-        for(Entity entity : toRemove){
-            currentRoom.getEntities().remove(entity);
-        }
-        if(!toRemove.isEmpty()){
-            checkDoors();
-        }
-        toRemove.clear();
     }
 
     public float getXOffset() {
@@ -232,12 +227,6 @@ public class GodManager {
     }
     public Room getCurrentRoom() {
         return currentRoom;
-    }
-    public void addEntity(Entity entity){
-        toAdd.add(entity);
-    }
-    public void removeEntity(Entity entity){
-        toRemove.add(entity);
     }
     public void newPlayer(){
         this.player = new Player();

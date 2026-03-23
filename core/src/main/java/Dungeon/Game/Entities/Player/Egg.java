@@ -39,7 +39,7 @@ public class Egg extends Entity {
             player.getX() + player.getWidth()/2 - this.sprite.getWidth()/2,
             player.getY() + player.getHeight()/2 - this.sprite.getHeight()/2);
 
-        god.addEntity(this);
+        god.getCurrentRoom().addEntity(this);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class Egg extends Entity {
         sprite.rotate(5);
 
         if(!god.checkBounds(sprite.getX(), sprite.getY())){
-            god.removeEntity(this);
+            god.getCurrentRoom().removeEntity(this);
         }
 
         for(Entity entity : god.getCurrentRoom().getEntities()){
@@ -59,7 +59,7 @@ public class Egg extends Entity {
             }
             if(sprite.getBoundingRectangle().overlaps(entity.getSprite().getBoundingRectangle())){
                 entity.damage(damage);
-                god.removeEntity(this);
+                god.getCurrentRoom().removeEntity(this);
             }
         }
     }
