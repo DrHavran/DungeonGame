@@ -1,5 +1,6 @@
 package Dungeon.Game.Entities;
 
+import Dungeon.Game.Entities.Items.Monster;
 import Dungeon.Game.GodManager;
 import Dungeon.Game.InputManager;
 import Dungeon.Game.Settings;
@@ -30,6 +31,7 @@ public abstract class Entity {
     protected int damage;
     protected int detectRadius;
     protected boolean isAttacking;
+    protected boolean dead;
 
     public Entity(){
         this.sprite = new Sprite();
@@ -41,6 +43,7 @@ public abstract class Entity {
         this.frame = 0;
         this.frameCount = 1;
         this.isAttacking = false;
+        this.dead = false;
         this.animationRotation = "right";
         this.rotation = "right";
     }
@@ -65,8 +68,17 @@ public abstract class Entity {
         if(animationSpeedCount >= animationSpeed){
             animationSpeedCount = 0;
             frame++;
-            if(frame >= frameCount){
-                frame = 0;
+            if(!dead){
+                if(frame >= frameCount){
+                    frame = 0;
+                }
+            }else{
+                if(frame == frameCount){
+                    if(type.contains("Gold")){
+                        god.getCurrentRoom().addEntity(new Monster(sprite.getX()+sprite.getWidth()/3, sprite.getY()+sprite.getHeight()/3));
+                    }
+                    god.getCurrentRoom().removeEntity(this);
+                }
             }
         }
     }
@@ -143,16 +155,15 @@ public abstract class Entity {
     public String getAnimationRotation() {
         return animationRotation;
     }
-    public String getRotation() {
-        return rotation;
-    }
     public String getAnimation() {
         return animation;
     }
     public void damage(int damage){
         health = health - damage;
-        if(health <= 0){
-            god.getCurrentRoom().removeEntity(this);
+        if(health <= 0 && !dead){
+            changeAnimation("dead");
+            dead = true;
+            frame = 0;
         }
     }
     public int getDetectRadius() {

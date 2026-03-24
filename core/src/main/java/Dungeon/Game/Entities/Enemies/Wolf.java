@@ -11,6 +11,7 @@ public class Wolf extends Entity {
 
         health = 100;
         size = 5;
+        speed = 4;
         detectRadius = 200;
 
         loadAnimations();
@@ -18,7 +19,6 @@ public class Wolf extends Entity {
         changeAnimation("idle");
 
         sprite.setSize(32*size,32*size);
-        sprite.setPosition(100, 100);
     }
 
     @Override
@@ -29,11 +29,25 @@ public class Wolf extends Entity {
     }
 
     private void move(){
+        if(!dead){
+            if(!touchingPlayer()){
+                if(checkRange()){
+                    isAttacking = true;
+                    changeAnimation("walk");
+                }
 
-        if(god.getPlayer().getSprite().getX() + god.getPlayer().getSprite().getWidth()/2 > sprite.getX() + sprite.getWidth()/2){
-            animationRotation = "right";
-        }else{
-            animationRotation = "left";
+                if(isAttacking){
+                    moveToPlayer();
+                }
+            }else{
+                changeAnimation("chomp2");
+            }
+
+            if(god.getPlayer().getSprite().getX() + god.getPlayer().getSprite().getWidth()/2 > sprite.getX() + sprite.getWidth()/2){
+                animationRotation = "right";
+            }else{
+                animationRotation = "left";
+            }
         }
     }
 
@@ -63,11 +77,16 @@ public class Wolf extends Entity {
         taunt.put("frames", 10);
         taunt.put("speed", 8);
 
+        HashMap<String, Integer> dead = new HashMap<>();
+        dead.put("frames", 5);
+        dead.put("speed", 14);
+
         animations.put("walk", walk);
         animations.put("jump", jump);
         animations.put("chomp", chomp);
         animations.put("chomp2", chomp2);
         animations.put("taunt", taunt);
         animations.put("idle", idle);
+        animations.put("dead", dead);
     }
 }

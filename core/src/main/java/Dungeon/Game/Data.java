@@ -27,7 +27,6 @@ public class Data {
             File[] files = sub.listFiles();
             assert files != null;
             for (File img : files) {
-                System.out.println("Loaded " + img.getName());
                 textures.put(img.getName(), new Texture(img.getAbsolutePath()));
             }
         }

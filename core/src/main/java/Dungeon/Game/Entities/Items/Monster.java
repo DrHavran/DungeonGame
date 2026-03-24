@@ -1,34 +1,40 @@
 package Dungeon.Game.Entities.Items;
 
 import Dungeon.Game.Entities.Entity;
+import Dungeon.Game.Settings;
+
+import java.util.HashMap;
 
 public class Monster extends Entity {
 
-    public Monster() {
+    public Monster(float x, float y) {
         super();
 
         size = 1.5f;
-        type = "monster";
+        sprite.setPosition(x, y);
 
-        int randomType = (int)(Math.random() * 5) + 1;
+        int randomType = (int)(Math.random() * 4) + 1;
 
         switch (randomType) {
             case 1:
-                changeAnimation("green");
+                type = "monsterGreen";
                 break;
             case 2:
-                changeAnimation("normal");
+                type = "monsterNormal";
                 break;
             case 3:
-                changeAnimation("red");
+                type = "monsterRed";
                 break;
             case 4:
-                changeAnimation("white");
+                type = "monsterWhite";
                 break;
             case 5:
-                changeAnimation("yellow");
+                type = "monsterYellow";
                 break;
         }
+        changeAnimation("idle");
+
+        sprite.setSize(32*size,32*size);
     }
 
     @Override
@@ -38,5 +44,10 @@ public class Monster extends Entity {
 
     @Override
     protected void loadAnimations(){
+        HashMap<String, Integer> idle = new HashMap<>();
+        idle.put("frames", 1);
+        idle.put("speed", 1);
+
+        animations.put("idle", idle);
     }
 }

@@ -1,6 +1,7 @@
 package Dungeon.Game.Room;
 
 import Dungeon.Game.Entities.Entity;
+import Dungeon.Game.Entities.Items.Monster;
 import Dungeon.Game.Entities.Player.Egg;
 import Dungeon.Game.GodManager;
 import Dungeon.Game.Settings;
@@ -149,7 +150,7 @@ public class Room {
         toRemove.clear();
     }
     public void addEntity(Entity entity){
-        if(!(entity instanceof Egg)){
+        if(!(entity instanceof Egg) && !(entity instanceof Monster)){
             Tile spawn = tiles.get((int)(Math.random() * tiles.size()));
 
             while(spawn.getType() != TileType.NORMAL){
@@ -157,8 +158,8 @@ public class Room {
             }
 
             entity.getSprite().setPosition(
-                spawn.getSprite().getX() - GodManager.getInstance().getXOffset(),
-                spawn.getSprite().getY() - GodManager.getInstance().getYOffset()
+                spawn.getSprite().getX(),
+                spawn.getSprite().getY()
             );
         }
         toAdd.add(entity);

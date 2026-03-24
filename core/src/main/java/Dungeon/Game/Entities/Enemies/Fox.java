@@ -15,11 +15,22 @@ public class Fox extends Entity {
         detectRadius = 200;
 
         loadAnimations();
-        type = "fox";
+        int randType = (int)(Math.random() * 4 + 1);
+        switch(randType){
+            case 1:
+                type = "foxWood";
+                speed = 6;
+                break;
+            case 2:
+                type = "foxGold";
+                break;
+            default:
+                type = "fox";
+                break;
+        }
         changeAnimation("idle");
 
         sprite.setSize(32*size,32*size);
-        sprite.setPosition(100, 100);
     }
 
     @Override
@@ -30,24 +41,25 @@ public class Fox extends Entity {
     }
 
     private void move(){
+        if(!dead){
+            if(!touchingPlayer()){
+                if(checkRange()){
+                    isAttacking = true;
+                    changeAnimation("walk");
+                }
 
-        if(!touchingPlayer()){
-            if(checkRange()){
-                isAttacking = true;
-                changeAnimation("walk");
+                if(isAttacking){
+                    moveToPlayer();
+                }
+            }else{
+                changeAnimation("chomp");
             }
 
-            if(isAttacking){
-                moveToPlayer();
+            if(god.getPlayer().getSprite().getX() + god.getPlayer().getSprite().getWidth()/2 > sprite.getX() + sprite.getWidth()/2){
+                animationRotation = "right";
+            }else{
+                animationRotation = "left";
             }
-        }else{
-            changeAnimation("chomp");
-        }
-
-        if(god.getPlayer().getSprite().getX() + god.getPlayer().getSprite().getWidth()/2 > sprite.getX() + sprite.getWidth()/2){
-            animationRotation = "right";
-        }else{
-            animationRotation = "left";
         }
     }
 
@@ -69,9 +81,14 @@ public class Fox extends Entity {
         chomp.put("frames", 7);
         chomp.put("speed", 9);
 
+        HashMap<String, Integer> dead = new HashMap<>();
+        dead.put("frames", 4);
+        dead.put("speed", 15);
+
         animations.put("walk", walk);
         animations.put("jump", jump);
         animations.put("chomp", chomp);
         animations.put("idle", idle);
+        animations.put("dead", dead);
     }
 }

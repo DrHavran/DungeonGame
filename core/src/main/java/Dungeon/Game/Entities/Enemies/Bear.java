@@ -11,6 +11,7 @@ public class Bear extends Entity {
 
         health = 100;
         size = 6;
+        speed = 2;
         detectRadius = 200;
 
         loadAnimations();
@@ -18,7 +19,6 @@ public class Bear extends Entity {
         changeAnimation("idle");
 
         sprite.setSize(32*size,32*size);
-        sprite.setPosition(100, 100);
     }
 
     @Override
@@ -29,10 +29,25 @@ public class Bear extends Entity {
     }
 
     private void move(){
-        if(god.getPlayer().getSprite().getX() + god.getPlayer().getSprite().getWidth()/2 > sprite.getX() + sprite.getWidth()/2){
-            animationRotation = "right";
-        }else{
-            animationRotation = "left";
+        if(!dead){
+            if(!touchingPlayer()){
+                if(checkRange()){
+                    isAttacking = true;
+                    changeAnimation("walk");
+                }
+
+                if(isAttacking){
+                    moveToPlayer();
+                }
+            }else{
+                changeAnimation("swipe");
+            }
+
+            if(god.getPlayer().getSprite().getX() + god.getPlayer().getSprite().getWidth()/2 > sprite.getX() + sprite.getWidth()/2){
+                animationRotation = "right";
+            }else{
+                animationRotation = "left";
+            }
         }
     }
 
@@ -62,11 +77,16 @@ public class Bear extends Entity {
         taunt.put("frames", 11);
         taunt.put("speed", 9);
 
+        HashMap<String, Integer> dead = new HashMap<>();
+        dead.put("frames", 5);
+        dead.put("speed", 15);
+
         animations.put("walk", walk);
         animations.put("jump", jump);
         animations.put("chomp", chomp);
         animations.put("swipe", swipe);
         animations.put("taunt", taunt);
         animations.put("idle", idle);
+        animations.put("dead", dead);
     }
 }

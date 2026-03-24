@@ -5,6 +5,7 @@ import Dungeon.Game.Entities.Enemies.Bear;
 import Dungeon.Game.Entities.Enemies.Fox;
 import Dungeon.Game.Entities.Enemies.Wolf;
 import Dungeon.Game.Entities.Entity;
+import Dungeon.Game.Entities.Items.Monster;
 import Dungeon.Game.Entities.Player.Egg;
 import Dungeon.Game.Entities.Player.Player;
 import Dungeon.Game.Room.*;
@@ -72,7 +73,7 @@ public class GodManager {
                     if (x > 0 && floor[y][x - 1] == 1) adjRooms.add("left");
                     if (x < floor[y].length - 1 && floor[y][x + 1] == 1) adjRooms.add("right");
 
-                    room.setRoom(rG.generateRoom(5, 5, adjRooms));
+                    room.setRoom(rG.generateRoom(7, 7, adjRooms));
                     addEnemies(room);
                     rooms[y][x] = room;
                 }
@@ -148,7 +149,7 @@ public class GodManager {
         Sprite playerSprite = player.getSprite();
 
         for(Entity entity : currentRoom.getEntities()){
-            if(!(entity instanceof Egg)){
+            if(!(entity instanceof Egg) && !(entity instanceof Monster)){
                 return;
             }
         }
@@ -229,6 +230,7 @@ public class GodManager {
         return currentRoom;
     }
     public void newPlayer(){
+        this.yOffset += 100;
         this.player = new Player();
     }
     public Player getPlayer(){
